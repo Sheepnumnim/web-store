@@ -5,7 +5,7 @@ html
 
 body
 {
-    background-color: #AFFFD3;
+    background-color: #B1E0A9;
     font-family: 'Montserrat', sans-serif, Arial;
     font-size: 20px; 	
     line-height: 35px;
@@ -248,6 +248,7 @@ ul.slides li img
 
 .page-desc
 {
+    text-indent: 50px;
     width: 925px;
     float: right;
     font-size: 24px;
@@ -796,6 +797,7 @@ div.pp_default .pp_loaderIcon
 
 .footer
 {
+    text-align: center;
     margin-top: 260px;
     padding-bottom: 170px;
     clear: both;
@@ -843,26 +845,10 @@ div.pp_default .pp_loaderIcon
     display: inline-block;
 }
 
-li.left-footer-content, li.right-footer-contnet
-{
-    width: 40%;
-}
 
 li.left-footer-content
 {
     font-size: 16px;
-}
-
-li.right-footer-contnet
-{
-    text-align: right;
-}
-
-li.right-footer-contnet a
-{
-    margin-left: 20px;
-    font-size: 16px;
-    display: inline-block;
 }
 
 li.right-footer-contnet a:first-child
