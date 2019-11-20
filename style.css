@@ -23,7 +23,7 @@ body a
 
 body a:hover
 {
-    color: #FD3137;
+    color: #039f4d;
 }
 
 input, textarea, select 
@@ -139,7 +139,8 @@ input, textarea, select
 .sm-clean a.highlighted, .sm-clean ul a:hover, .sm-clean ul a:focus, 
 .sm-clean ul a:active, .sm-clean ul a.highlighted, .sm-clean .current_page_item a
 {
-    color: #FD3137;
+    color: #039f4d;
+    font-weight: bold;
 }
 
 .sub-arrow
@@ -217,7 +218,7 @@ ul.slides li img
 {
     cursor: pointer;
     zoom: 1.1;
-    color: #fd3137;
+    color: #039f4d;
 }
 
 .caroufredsel_wrapper:before 
@@ -246,12 +247,23 @@ ul.slides li img
     background-color: #FD3137;
 }
 
+.mytitle
+{
+    color: #a1a1a1;
+    font-weight: bold;
+}
+
+.mydesc
+{
+    text-indent: 50px;
+}
+
 .page-desc
 {
     text-indent: 50px;
     width: 925px;
     float: right;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 40px;
 }
 
@@ -799,7 +811,7 @@ div.pp_default .pp_loaderIcon
 {
     text-align: center;
     margin-top: 260px;
-    padding-bottom: 170px;
+    padding-bottom: 30px;
     clear: both;
 }
 
@@ -1139,7 +1151,7 @@ li.left-footer-content.mobile
     .footer
     {
         margin-top: 140px;
-        padding-bottom: 85px
+        padding-bottom: 30px
     }    
 
     .footer ul li 
