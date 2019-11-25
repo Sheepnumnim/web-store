@@ -37,8 +37,10 @@
         </table>   
 
         <div class="body-wrapper">      
-
-            <?php include('get_header.php'); ?>
+            <div class="content-1330 header-holder center-relative">
+                <?php include('get_header.php'); ?>
+                <?php include('get_nav.php'); ?>
+            </div>
 
             <div id="content" class="site-content">
                 <article>
