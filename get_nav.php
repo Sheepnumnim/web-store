@@ -12,7 +12,7 @@ echo <<<EOT
                 <a href="about.php">About</a>
             </li>
             <li>
-                <a href="index-slider.php">Products</a>
+                <a href="products.php">Products</a>
             </li>        
             <li>
                 <a href="contact.php">Contact</a>
