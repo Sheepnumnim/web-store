@@ -36,51 +36,10 @@
             </tbody>
         </table>   
 
-        <div class="header-search">
-            <div class="content-1330 center-relative">
-                <form class="search-form">
-                    <label>		
-                        <input type="search" class="search-field" placeholder="Search ..." value="" name="s" title="Search for:">                        
-                    </label>    
-                </form>               
-            </div>
-        </div>
-
-
         <div class="body-wrapper">       
-            <div class="content-1330 header-holder center-relative">
-                <div class="header-logo left">
-    
-                    <h1 class="site-title">
-                        <a href="index.html">
-                            <img src="images/icon.jpg" width="242" alt="Icon Perfect-">
-                        </a>               
-                    </h1>
+            
+            <?php include('get_header.php'); ?>
 
-                </div>
-    
-                <div class="header-menu right">
-                    <nav id="header-main-menu" class="left">
-                        <ul class="main-menu sm sm-clean">
-                            <li>
-                                <a href="index.html">Home</a>
-                            </li>
-                            <li>
-                                <a href="about.html">About</a>
-                            </li>
-                            <li>
-                                <a href="index-slider.html">Products</a>
-                            </li>        
-                            <li>
-                                <a href="contact-map.html">Contact</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="clear"></div>							
-                </div>
-                <div class="clear"></div>
-            </div>
-    
             <div id="content" class="site-content">
                 <article>
                     <div class="content-1330 center-relative">
@@ -108,23 +67,10 @@
 
             <!--Footer-->
 
-            <footer class="footer">
-                <div class="content-1330 center-relative">			
-                    <ul>
-                        <li class="left-footer-content">
-                            Copyright © <script>document.write(new Date().getFullYear());</script> Icon Perfect All Rights Reserved.            
-                        </li>
-                        <li class="left-footer-content mobile">
-                            Copyright © <script>document.write(new Date().getFullYear());</script> Icon Perfect All Rights Reserved.            
-                        </li>
-                    </ul>
-                </div>
-            </footer>
-    
+            <?php include('get_footer.php'); ?>
+
             <!-- End .body-border -->
         </div>
-
-
 
         <!--Load JavaScript-->
         <script src="js/jquery.js"></script>			                                       
