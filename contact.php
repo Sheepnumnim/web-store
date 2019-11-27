@@ -26,16 +26,6 @@
     </head>
     <body class="page">
 
-        <table class="doc-loader">
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="images/ajax-document-loader.gif" alt="Loading...">                    
-                    </td>
-                </tr>
-            </tbody>
-        </table>   
-
         <div class="body-wrapper">       
             <div class="content-1330 header-holder center-relative">
                 <?php include('get_header.php'); ?>
