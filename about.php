@@ -82,11 +82,17 @@
                             OUR SERVICES
                         </div>
                         <p>&nbsp;</p>
+                        <div class="content-1530 center-relative block">
+                            <img src="images/our-services.png" alt="our services">
+                        </div>
                         <p>&nbsp;</p>
                         <div class="mytitle">
                             OUR CLIENTS
                         </div>
                         <p>&nbsp;</p>
+                        <div class="content-1530 center-relative block">
+                            <img src="images/our-client.jpg" alt="our client">
+                        </div>
                         <p>&nbsp;</p>
                         <div class="clear"></div>
                     </div>
