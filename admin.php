@@ -1,3 +1,15 @@
+<?php
+$dbhost = 'localhost:3306';
+$dbuser = 'root';
+$dbpass = '';
+$dbname = 'iconperfect';
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+      
+if(! $conn ) {
+    die('Could not connect: ' . mysqli_error());
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,62 +17,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
-<body class="container">
-    <h1>Admin</h1>
-    <table class="table table-striped">
+<body class="container bg-dark">
+    <h1 class="text-light">Admin</h1>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <!-- Config & database information -->
+    <table class="table table-striped table-dark">
+        <caption>Config & database information</caption>
         <tr>
-            <th scope="row">Add category:</th>
-            <td>
-                <form action="dbAddCategory.php" method="post">
-                    <input type="text" name="categoryName" id="categoryName" placeholder="categoryName"></br>
-                    <input type="file" name="categoryImg" id="fileToUpload"></br>
-                    </br><input type="submit" class="btn btn-outline-dark" value="Add category" name="submit">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">Add product:</th>
-            <td>
-                <form action="dbconnect.php" method="post" enctype="multipart/form-data">
-                    <input type="file" name="fileToUpload" id="fileToUpload"></br>
-                    add to category
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
-                            Default radio
-                        </label>
-                        </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            Second default radio
-                        </label>
-                        </div>
-                        <div class="form-check disabled">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
-                        <label class="form-check-label" for="exampleRadios3">
-                            Disabled radio
-                        </label>
-                    </div>
-                    </br><input type="submit" class="btn btn-outline-dark" value="Add product" name="submit">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">Set categories arranging:</th>
-            <td>
-                developing...
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">Set highlight products:</th>
-            <td>
-                developing...
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">Real path:</th>
-            <td>
+            <th class="col-3" scope="row">Real path:</th>
+            <td class="col-9">
                 <?php
                     $realpath = realpath(__FILE__);
                     echo $realpath;
@@ -87,4 +54,96 @@
             </td>
         </tr>
     </table>
+
+    <p>&nbsp;</p>
+    <hr style="border:2px solid white">
+    <p>&nbsp;</p>
+
+    <!-- Categories -->
+    <table class="table table-striped table-dark">
+        <caption>Categories</caption>
+        <tr>
+            <th class="col-3" scope="row">Add category:</th>
+            <td class="col-9">
+                <form action="dbAddCategory.php" method="post">
+                    <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
+                    <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
+                    </br><input type="submit" class="btn btn-outline-light" value="Add category" name="submit">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">All categories:</th>
+            <td>
+                <?php
+                    $sql = "SELECT * FROM categories";
+                    if ($res = mysqli_query($conn, $sql)) {
+                        while ($row = mysqli_fetch_array($res)) { 
+                            echo "id: " . $row['category_id'] . " || "; 
+                            echo "name: " . $row['category_name']." || "; 
+                            echo "img file name: " . $row['category_img']." || ";  
+                            echo "position: " . $row['category_pos']."</br>";
+                        }
+                        mysqli_free_result($res); 
+                    } else {
+                        echo "Cannot query.</br>";
+                    }
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Set categories arranging:</th>
+            <td>
+                developing...
+            </td>
+        </tr>
+    </table>
+    
+    <p>&nbsp;</p>
+    <hr style="border:2px solid white">
+    <p>&nbsp;</p>
+
+    <!-- Products -->
+    <table class="table table-striped table-dark">
+        <caption>Products</caption>
+        <tr>
+            <th class="col-3" scope="row">Add product:</th>
+            <td class="col-9">
+                <form action="dbAddCatagory.php" method="post" enctype="multipart/form-data">
+                    <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
+                    <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name..."></br>
+                    <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description...(optional)"></textarea>
+                    <label class="col-form-label">Add to category</label>
+                    <?php
+                        $sql = "SELECT * FROM categories";
+                        if ($res = mysqli_query($conn, $sql)) {
+                            while ($row = mysqli_fetch_array($res)) { 
+                                echo "<div class=\"form-check\">";
+                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"category_id\" id=". $row['category_id'] ." value=". $row['category_id'] ." checked>";
+                                echo "<label class=\"form-check-label\" for=". $row['category_id'] .">";
+                                echo $row['category_name']; 
+                                echo "</label>";
+                                echo "</div>";
+                            }
+                            mysqli_free_result($res); 
+                        } else {
+                            echo "Cannot query.</br>";
+                        }
+                    ?>
+                    </br><input type="submit" class="btn btn-outline-light" value="Add product" name="submit">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Set highlight products:</th>
+            <td>
+                developing...
+            </td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
 </body>
+
+<?php
+    mysqli_close($conn);
+?>
