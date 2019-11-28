@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
     {
         jQuery("html").css('overflow', 'auto');
 
-        jQuery('.post-num-comments a').click(function (e) {
+        jQuery('.bag-num-comments a').click(function (e) {
             e.preventDefault();
             jQuery('html, body').animate({scrollTop: jQuery(this.hash).offset().top}, 2000);
             return false;
@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
         jQuery("html").niceScroll({cursorcolor: "#b1b1b1", scrollspeed: 100, mousescrollstep: 80, cursorwidth: "12px", cursorborder: "none", cursorborderradius: "0px"});
 
         //Smooth scroll on single post (comments)
-        jQuery('.post-num-comments a').click(function (e) {
+        jQuery('.bag-num-comments a').click(function (e) {
             e.preventDefault();
             jQuery("html").getNiceScroll(0).doScrollTop(jQuery(this.hash).offset().top);
         });
@@ -249,7 +249,7 @@ jQuery(window).load(function () {
     contactFormWidthFix();
 
     //Fix for post opacity
-    jQuery(".blog-item-holder, .post-border").css({opacity: 1});
+    jQuery(".blog-item-holder, .bag-border").css({opacity: 1});
 
     jQuery('.doc-loader').fadeOut('fast');
 

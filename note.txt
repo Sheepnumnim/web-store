@@ -1,0 +1,23 @@
+# categories
+create table categories(
+    -> category_id int NOT NULL AUTO_INCREMENT,
+    -> category_name char(50) NOT NULL,
+    -> category_img char(50) NOT NULL DEFAULT "no-photo.png",
+    -> category_pos int NOT NULL DEFAULT 0,
+    -> PRIMARY KEY(category_id));
+
+# products
+create table products(
+    -> product_id int NOT NULL AUTO_INCREMENT,
+    -> product_name char(50) NOT NULL DEFAULT "NO IMAGE TITLE",
+    -> product_img char(50) NOT NULL DEFAULT "no-photo.png",
+    -> product_description char(100) NOT NULL DEFAULT "NO IMAGE DESCRIPTION",
+    -> category_id int NOT NULL DEFAULT 1,
+    -> PRIMARY KEY(product_id),
+    -> FOREIGN KEY(category_id) REFERENCES categories(category_id));
+
+# highlight_product
+create table highlight_product(
+    -> h_pos int NOT NULL DEFAULT 0,
+    -> product_id int NOT NULL,
+    -> FOREIGN KEY(product_id) REFERENCES products(product_id));

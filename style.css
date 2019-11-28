@@ -307,7 +307,7 @@ ul.slides li img
     vertical-align: middle;
 }
 
-.blog-holder .post-border
+.blog-holder .bag-border
 {
     border-bottom: 1px solid #eeeeee;
     opacity: 0;
@@ -413,7 +413,7 @@ body.blog .more-posts:hover span
     word-wrap: break-word;
 }
 
-.single-post .post-info
+.single-post .bag-info
 {
     text-align: left;
     float: left;
@@ -421,13 +421,13 @@ body.blog .more-posts:hover span
     margin-right: 130px;
 }
 
-.single-post .post-info .post-author a
+.single-post .bag-info .bag-author a
 {
     text-decoration: none;
     color: #039f4d;
 }
 
-.single-post .post-info  .post-num-comments a
+.single-post .bag-info  .bag-num-comments a
 {
     color: #039f4d;
     text-decoration: none;
@@ -451,7 +451,7 @@ body.blog .more-posts:hover span
     height: auto;
 }
 
-.post-full-width .fluid-width-video-wrapper
+.bag-full-width .fluid-width-video-wrapper
 {
     float: right;
 }
@@ -986,7 +986,7 @@ li.left-footer-content.mobile
         width: 1110px;
     }
 
-    .single-post .post-info
+    .single-post .bag-info
     {
         margin-right: 35px;
     }
@@ -1026,7 +1026,7 @@ li.left-footer-content.mobile
         margin-bottom: 30px;
     }
 
-    .single-post .post-author, .single-post .post-date, .single-post .post-num-comments, .single-post .post-read-time
+    .single-post .bag-author, .single-post .bag-date, .single-post .bag-num-comments, .single-post .bag-read-time
     {
         margin: 0 15px;
     }
@@ -1070,7 +1070,7 @@ li.left-footer-content.mobile
         text-align: center;
     }
 
-    .single-post .post-info
+    .single-post .bag-info
     {
         float: none;
         width: auto;
@@ -1089,7 +1089,7 @@ li.left-footer-content.mobile
         display: inline-block;
     }
 
-    .single-post .post-author, .single-post .post-date, .single-post .post-num-comments, .single-post .post-read-time
+    .single-post .bag-author, .single-post .bag-date, .single-post .bag-num-comments, .single-post .bag-read-time
     {
         display: inline-block;
     }
