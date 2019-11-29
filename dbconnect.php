@@ -60,3 +60,5 @@ echo 'Connected successfully</br>';
 mysqli_close($conn);
 
 ?>
+
+<a href="admin.php">back to admin</a>

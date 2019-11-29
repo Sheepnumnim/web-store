@@ -15,6 +15,17 @@ if(! $conn ) {
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function validate() {
+            var ename = document.getElementById( "categoryName" );
+            if( ename.value == "" ) {
+                ename.setAttribute("class", "form-control is-invalid");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
 </head>
 
 <body class="container bg-dark">
@@ -30,9 +41,12 @@ if(! $conn ) {
         <tr>
             <th class="col-3" scope="row">Add category:</th>
             <td class="col-9">
-                <form action="dbAddCategory.php" method="post" enctype="multipart/form-data">
+                <form action="dbconnect.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                     <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
                     <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
+                    <div class="invalid-feedback">
+                        Please enter category name.
+                    </div>
                     </br><input type="submit" class="btn btn-outline-light" value="Add category" name="submit">
                 </form>
             </td>
