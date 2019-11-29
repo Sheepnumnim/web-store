@@ -21,41 +21,6 @@ if(! $conn ) {
     <h1 class="text-light">Admin</h1>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-
-    <!-- Config & database information -->
-    <table class="table table-striped table-dark">
-        <caption>Config & database information</caption>
-        <tr>
-            <th class="col-3" scope="row">Real path:</th>
-            <td class="col-9">
-                <?php
-                    $realpath = realpath(__FILE__);
-                    echo $realpath;
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">Dir name:</th>
-            <td>
-                <?php
-                    $path = dirname($realpath);
-                    $path = str_replace("\\", "/", $path) . "/uploads";
-                    echo $path;
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">File in /uploads:</th>
-            <td>
-                <?php
-                    $files = scandir($path);
-                    print_r($files);
-                ?>
-            </td>
-        </tr>
-    </table>
-
-    <p>&nbsp;</p>
     <hr style="border:2px solid white">
     <p>&nbsp;</p>
 
@@ -65,7 +30,7 @@ if(! $conn ) {
         <tr>
             <th class="col-3" scope="row">Add category:</th>
             <td class="col-9">
-                <form action="dbAddCategory.php" method="post">
+                <form action="dbAddCategory.php" method="post" enctype="multipart/form-data">
                     <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
                     <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
                     </br><input type="submit" class="btn btn-outline-light" value="Add category" name="submit">
@@ -109,7 +74,7 @@ if(! $conn ) {
         <tr>
             <th class="col-3" scope="row">Add product:</th>
             <td class="col-9">
-                <form action="dbAddCatagory.php" method="post" enctype="multipart/form-data">
+                <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
                     <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
                     <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name..."></br>
                     <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description...(optional)"></textarea>
@@ -135,12 +100,72 @@ if(! $conn ) {
             </td>
         </tr>
         <tr>
+            <th scope="row">All products:</th>
+            <td>
+                <?php
+                    $sql = "SELECT * FROM products";
+                    if ($res = mysqli_query($conn, $sql)) {
+                        while ($row = mysqli_fetch_array($res)) { 
+                            echo "id: " . $row['product_id'] . " || "; 
+                            echo "name: " . $row['product_name']." || "; 
+                            echo "img file name: " . $row['product_img']." || ";  
+                            echo "description: " . $row['product_description'] . " || ";
+                            echo "category: " . $row['category_id'] . "</br>"; 
+                        }
+                        mysqli_free_result($res); 
+                    } else {
+                        echo "Cannot query.</br>";
+                    }
+                ?>
+            </td>
+        </tr>
+        <tr>
             <th scope="row">Set highlight products:</th>
             <td>
                 developing...
             </td>
         </tr>
     </table>
+
+    <p>&nbsp;</p>
+    <hr style="border:2px solid white">
+    <p>&nbsp;</p>
+
+    <!-- Config & database information -->
+    <table class="table table-striped table-dark">
+        <caption>Config & database information</caption>
+        <tr>
+            <th class="col-3" scope="row">Real path:</th>
+            <td class="col-9">
+                <?php
+                    $realpath = realpath(__FILE__);
+                    echo $realpath;
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Dir name:</th>
+            <td>
+                <?php
+                    $path = dirname($realpath);
+                    $path = str_replace("\\", "/", $path) . "/uploads";
+                    echo $path;
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">File in /uploads:</th>
+            <td>
+                <?php
+                    $files = scandir($path);
+                    print_r($files);
+                ?>
+            </td>
+        </tr>
+    </table>
+
+    <p>&nbsp;</p>
+    <hr style="border:2px solid white">
     <p>&nbsp;</p>
 </body>
 
