@@ -53,6 +53,24 @@ echo "</br>";
 $current_pos = 0;
 $all_pos = array(NULL);
 
+foreach($rows as $key => $value) {
+    $all_pos[$key] = $rows[$key]['category_pos'];
+}
+
+echo "min: " . min($all_pos) . " || max: " . max($all_pos) . "</br>";
+
+foreach($rows as $key => $value) {
+    $rows[$key]['category_pos'] = $rows[$key]['category_pos'] - min($all_pos);
+}
+foreach($rows as $row) {
+    // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
+    print_r($row);
+    echo "</br>";
+}
+echo "</br>";
+echo "</br>";
+$all_pos = array(NULL);
+
 while($current_pos < $num_rows) {
     foreach($rows as $key => $value) {
         // print_r($value);
