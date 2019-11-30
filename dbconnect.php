@@ -147,9 +147,12 @@ foreach($rows as $key => $value) {
     }
 }
 foreach($rows as $row) {
-    // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
-    print_r($row);
-    echo "</br>";
+    $sql = "UPDATE categories SET category_pos = " . $row['category_pos'] . " WHERE category_id = " . $row['category_id'];
+    if ($res = mysqli_query($conn, $sql)) {
+        echo "Query success.</br>";
+    } else {
+        echo "Cannot query.</br>";
+    }
 }
 
 // close database connection

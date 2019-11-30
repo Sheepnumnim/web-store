@@ -1,3 +1,15 @@
+<?php
+$dbhost = 'localhost:3306';
+$dbuser = 'root';
+$dbpass = '';
+$dbname = 'iconperfect';
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+      
+if(! $conn ) {
+    die('Could not connect: ' . mysqli_error());
+}
+?>
+
 <!DOCTYPE HTML>
 <html lang="en-US">
     <head>
@@ -48,56 +60,63 @@
                         <div class="clear"></div>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
+                        <?php
+                            // get category
+                            $sql = "SELECT * FROM categories";
+                            if ($res = mysqli_query($conn, $sql)) {
+                                $count = 0;
+                                while ($row = mysqli_fetch_array($res)) { 
+                                    $c_rows[$count] = $row;
+                                    $count++;
+                                }
+                                mysqli_free_result($res); 
+                            } else {
+                                echo "Cannot query.</br>";
+                            }
+                            // get group of category
+                            $sql = "SELECT DISTINCT category_group FROM categories";
+                            if ($res = mysqli_query($conn, $sql)) {
+                                $count = 0;
+                                while ($row = mysqli_fetch_array($res)) { 
+                                    $g_rows[$count] = strtolower($row['category_group']);
+                                    // echo ucfirst($g_rows[$count]) . " $g_rows[$count]</br>";
+                                    $count++;
+                                }
+                                mysqli_free_result($res); 
+                            } else {
+                                echo "Cannot query.</br>";
+                            }
+                        ?>
                         <div class="button-group filters-button-group">
                             <div class="button is-checked" data-filter="*">All</div>
-                            <div class="button" data-filter=".bag">Bag</div>
-                            <div class="button" data-filter=".image">Image</div>
-                            <div class="button" data-filter=".video">Video</div>
+                            <?php
+                                foreach($g_rows as $row) {
+                                    echo "<div class=\"button\" data-filter=\".".$row."\">".ucfirst($row)."</div>";
+                                }
+                            ?>
                             <!-- <div class="button" data-filter=".extern">Extern</div>                                 -->
                         </div>
                         <div class="grid" id="portfolio">
                             <div class="grid-sizer"></div>
-                            <div class="grid-item element-item p_one_third bag">
-                                <a href="demo-images/sun_portfolio_image03.png">
-                                    <img src="demo-images/sun_portfolio_image03.png" alt="">
-                                    <div class="portfolio-text-holder">
-                                        <p>BAG</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="grid-item element-item p_one_third bag">
-                                <a href="single-portfolio.html">
-                                    <img src="demo-images/sun_portfolio_image01.png" alt="">
-                                    <div class="portfolio-text-holder">
-                                        <p>CLOCK</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="grid-item element-item p_one_third bag">
-                                <a href="single-portfolio.html">
-                                    <img src="demo-images/sun_portfolio_image01.png" alt="">
-                                    <div class="portfolio-text-holder">
-                                        <p>CLOCK</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="grid-item element-item p_one_third bag">
-                                <a href="demo-images/sun_portfolio_image03.png">
-                                    <img src="demo-images/sun_portfolio_image03.png" alt="">
-                                    <div class="portfolio-text-holder">
-                                        <p>BAG</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="grid-item element-item p_one_third bag">
-                                <a href="single-portfolio.html">
-                                    <img src="demo-images/sun_portfolio_image01.png" alt="">
-                                    <div class="portfolio-text-holder">
-                                        <p>CLOCK</p>
-                                    </div>
-                                </a>
-                            </div>
-                            
+                            <?php
+                                foreach($c_rows as $row) {
+                                    echo "<div class=\"grid-item element-item p_one_third "
+                                        .strtolower($row['category_group'])
+                                        ."\">";
+                                    echo "<a href=\"uploads/categories/"
+                                        .$row['category_img']
+                                        ."\">";
+                                    echo "<img src=\"uploads/categories/"
+                                        .$row['category_img']
+                                        ."\">"
+                                        ."alt=\"\">";
+                                    echo "<div class=\"portfolio-text-holder\">";
+                                    echo "<p>"
+                                        .strtoupper($row['category_name'])
+                                        ."</p>";
+                                    echo "</div></a></div>";
+                                }
+                            ?>
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -127,3 +146,7 @@
         <script src='js/main.js'></script>
     </body>
 </html>
+
+<?php
+    mysqli_close($conn);
+?>
