@@ -83,61 +83,73 @@ foreach($rows as $row) {
 echo "</br>";
 echo "</br>";
 $all_pos = array(NULL);
-
-while($current_pos < $num_rows) {
-    foreach($rows as $key => $value) {
-        // print_r($value);
-        if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
-            echo "000000000000000000000000000000000.</br>";
+foreach($rows as $key => $value) {
+    // 0 or duplicate value
+    if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
+        $r = range(1, $current_pos);
+        if(count(array_intersect($r, $all_pos)) == count($r)){
             $current_pos++;
             for($i=1; $i < count($all_pos); $i++) {
                 if(in_array($current_pos, $all_pos)){
-                    $current_pos++;
+                    $current_pos++; // increase current pos untill found empty pos
                 }
             }
-            $rows[$key]['category_pos'] = $current_pos;
             $all_pos[$key] = $current_pos;
+            $rows[$key]['category_pos'] = $current_pos;
         } else {
-            echo "111111111111111111111111111111111.</br>";
-            $all_pos[$key] = $rows[$key]['category_pos'];
-            $r = range(1, $rows[$key]['category_pos']-1);
-            // print_r($r);
-            // echo "</br>";
-            // print_r($all_pos);
-            // echo "</br>";
-            if(count(array_intersect($r, $all_pos)) == count($r)){
-                echo count($all_pos)." <<- all_pos count || isin.</br>";
-                $highest = $rows[$key]['category_pos'];
-                for($i=1; $i < count($all_pos); $i++) {
-                    echo $highest.".</br>";
-                    if(!in_array($highest ,$all_pos)) {
-                        $current_pos = $highest-1;
-                        break;
-                    } else {
-                        $highest++;
-                    }
+            for($i=1; $i!=0; ) {
+                // decrease current pos untill found empty pos
+                if(in_array($current_pos, $all_pos)){
+                    $current_pos--;
+                } else {
+                    $all_pos[$key] = $current_pos;
+                    $rows[$key]['category_pos'] = $current_pos;
+                    $i = 0;
                 }
-                // $current_pos = $rows[$key]['category_pos'];
             }
-            else{
-                echo "is not in. do nothing.</br>";
-            }
-            // if(in_array($rows[$key]['category_pos'], range(1, $rows[$key]['category_pos']-1))) {
-            //     $current_pos = max($all_pos);
-            // }
         }
-        print_r($all_pos);
-        echo " || cur pos: ".$current_pos." || <br/>";
-        // $rows[$key]['category_pos'] = 1;
-        // echo "id[".$value['category_id']."] : pos = ".$value['category_pos']."</br>";
-        // echo "</br>";
+    // over value
+    } elseif($rows[$key]['category_pos'] > $num_rows) {
+        $current_pos = $num_rows;
+        for($i=1; $i!=0; ) {
+            // decrease current pos untill found empty pos
+            if(in_array($current_pos, $all_pos)){
+                $current_pos--;
+            } else {
+                $all_pos[$key] = $current_pos;
+                $rows[$key]['category_pos'] = $current_pos;
+                $i = 0;
+            }
+        }
+    // normal new value
+    } else {
+        $current_pos = $rows[$key]['category_pos'];
+        $all_pos[$key] = $current_pos;
+
+        // $r = range(1, $rows[$key]['category_pos']-1);
+        // // add to back
+        // if(count(array_intersect($r, $all_pos)) == count($r)){
+        //     $current_pos++;
+        //     $all_pos[$key] = $current_pos;
+        //     $rows[$key]['category_pos'] = $current_pos;
+        // // add to empty pos
+        // } else {
+        //     $highest = $rows[$key]['category_pos'];
+        //     for($i=1; $i < count($all_pos); $i++) {
+        //         if(!in_array($highest ,$all_pos)) {
+        //             $current_pos = $highest-1;
+        //             break;
+        //         } else {
+        //             $highest++;
+        //         }
+        //     }
+        // }
     }
-    foreach($rows as $row) {
-        // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
-        print_r($row);
-        echo "</br>";
-    }
-    break;
+}
+foreach($rows as $row) {
+    // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
+    print_r($row);
+    echo "</br>";
 }
 
 // close database connection

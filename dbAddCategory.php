@@ -98,39 +98,57 @@ foreach($rows as $key => $value) {
 
 // arrange rows-pos
 $all_pos = array(NULL);
-while($current_pos < $num_rows) {
-    foreach($rows as $key => $value) {
-        if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
+foreach($rows as $key => $value) {
+    // 0 or duplicate value
+    if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
+        $r = range(1, $current_pos);
+        if(count(array_intersect($r, $all_pos)) == count($r)){
             $current_pos++;
             for($i=1; $i < count($all_pos); $i++) {
                 if(in_array($current_pos, $all_pos)){
-                    $current_pos++;
+                    $current_pos++; // increase current pos untill found empty pos
                 }
             }
-            $rows[$key]['category_pos'] = $current_pos;
             $all_pos[$key] = $current_pos;
+            $rows[$key]['category_pos'] = $current_pos;
         } else {
-            $all_pos[$key] = $rows[$key]['category_pos'];
-            $r = range(1, $rows[$key]['category_pos']-1);
-            if(count(array_intersect($r, $all_pos)) == count($r)){
-                $highest = $rows[$key]['category_pos'];
-                for($i=1; $i < count($all_pos); $i++) {
-                    if(!in_array($highest ,$all_pos)) {
-                        $current_pos = $highest-1;
-                        break;
-                    } else {
-                        $highest++;
-                    }
+            for($i=1; $i!=0; ) {
+                // decrease current pos untill found empty pos
+                if(in_array($current_pos, $all_pos)){
+                    $current_pos--;
+                } else {
+                    $all_pos[$key] = $current_pos;
+                    $rows[$key]['category_pos'] = $current_pos;
+                    $i = 0;
                 }
             }
         }
+    // over value
+    } elseif($rows[$key]['category_pos'] > $num_rows) {
+        $current_pos = $num_rows;
+        for($i=1; $i!=0; ) {
+            // decrease current pos untill found empty pos
+            if(in_array($current_pos, $all_pos)){
+                $current_pos--;
+            } else {
+                $all_pos[$key] = $current_pos;
+                $rows[$key]['category_pos'] = $current_pos;
+                $i = 0;
+            }
+        }
+    // normal new value
+    } else {
+        $current_pos = $rows[$key]['category_pos'];
+        $all_pos[$key] = $current_pos;
     }
-    foreach($rows as $row) {
-        // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
-        print_r($row);
-        echo "</br>";
+}
+foreach($rows as $row) {
+    $sql = "UPDATE categories SET category_pos = " . $row['category_pos'] . " WHERE category_id = " . $row['category_id'];
+    if ($res = mysqli_query($conn, $sql)) {
+        echo "Query success.</br>";
+    } else {
+        echo "Cannot query.</br>";
     }
-    break;
 }
 
 // close database connection
