@@ -76,7 +76,6 @@ if ($res = mysqli_query($conn, $sql)) {
     $count = 0;
     while ($row = mysqli_fetch_array($res)) { 
         $rows[$count] = $row;
-        echo "</br>";
         $count++;
     }
     $num_fields = mysqli_num_fields($res);
@@ -103,14 +102,33 @@ while($current_pos < $num_rows) {
     foreach($rows as $key => $value) {
         if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
             $current_pos++;
+            for($i=1; $i < count($all_pos); $i++) {
+                if(in_array($current_pos, $all_pos)){
+                    $current_pos++;
+                }
+            }
             $rows[$key]['category_pos'] = $current_pos;
-            // $all_pos[$key] = $current_pos;
+            $all_pos[$key] = $current_pos;
         } else {
             $all_pos[$key] = $rows[$key]['category_pos'];
-            if($current_pos == max($all_pos)-1) {
-                $current_pos = max($all_pos);
+            $r = range(1, $rows[$key]['category_pos']-1);
+            if(count(array_intersect($r, $all_pos)) == count($r)){
+                $highest = $rows[$key]['category_pos'];
+                for($i=1; $i < count($all_pos); $i++) {
+                    if(!in_array($highest ,$all_pos)) {
+                        $current_pos = $highest-1;
+                        break;
+                    } else {
+                        $highest++;
+                    }
+                }
             }
         }
+    }
+    foreach($rows as $row) {
+        // echo "id[".$row['category_id']."] : pos = ".$row['category_pos']."</br>";
+        print_r($row);
+        echo "</br>";
     }
     break;
 }
