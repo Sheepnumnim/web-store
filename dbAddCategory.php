@@ -67,7 +67,53 @@ if(isset($_POST["submit"])) {
     }
 }
 
+// arrange pos
+// fetch rows
+$num_fields = 0;
+$num_rows = 0; 
+$sql = "SELECT * FROM categories";
+if ($res = mysqli_query($conn, $sql)) {
+    $count = 0;
+    while ($row = mysqli_fetch_array($res)) { 
+        $rows[$count] = $row;
+        echo "</br>";
+        $count++;
+    }
+    $num_fields = mysqli_num_fields($res);
+    $num_rows = mysqli_num_rows($res);
+    mysqli_free_result($res); 
+} else {
+    echo "Cannot query.</br>";
+}
+echo "</br>";
 
+// normalize all rows-pos
+$current_pos = 0;
+$all_pos = array(NULL);
+foreach($rows as $key => $value) {
+    $all_pos[$key] = $rows[$key]['category_pos'];
+}
+foreach($rows as $key => $value) {
+    $rows[$key]['category_pos'] = $rows[$key]['category_pos'] - min($all_pos);
+}
+
+// arrange rows-pos
+$all_pos = array(NULL);
+while($current_pos < $num_rows) {
+    foreach($rows as $key => $value) {
+        if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
+            $current_pos++;
+            $rows[$key]['category_pos'] = $current_pos;
+            // $all_pos[$key] = $current_pos;
+        } else {
+            $all_pos[$key] = $rows[$key]['category_pos'];
+            if($current_pos == max($all_pos)-1) {
+                $current_pos = max($all_pos);
+            }
+        }
+    }
+    break;
+}
 
 // close database connection
 mysqli_close($conn);

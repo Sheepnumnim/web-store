@@ -13,6 +13,19 @@ if(! $conn ) {
          
 echo 'Connected successfully</br>';
 
+/*
+$arr1 = array(1, 2);
+$arr2 = array(1, 3, 5, 8);
+
+$containsSearch = count(array_intersect($arr1, $arr2)) == count($arr1);
+echo $containsSearch . ".</br>";
+if(count(array_intersect($arr1, $arr2)) == count($arr1))
+    echo "isin.</br>";
+else{
+    echo "is not in.</br>";
+}
+*/
+
 // fields from query
 $num_fields = 0;
 $num_rows = 0; 
@@ -75,14 +88,46 @@ while($current_pos < $num_rows) {
     foreach($rows as $key => $value) {
         // print_r($value);
         if($rows[$key]['category_pos'] == 0 || in_array($rows[$key]['category_pos'], $all_pos)) {
+            echo "000000000000000000000000000000000.</br>";
             $current_pos++;
+            for($i=1; $i < count($all_pos); $i++) {
+                if(in_array($current_pos, $all_pos)){
+                    $current_pos++;
+                }
+            }
             $rows[$key]['category_pos'] = $current_pos;
             $all_pos[$key] = $current_pos;
         } else {
+            echo "111111111111111111111111111111111.</br>";
             $all_pos[$key] = $rows[$key]['category_pos'];
-            $current_pos = max($all_pos);
+            $r = range(1, $rows[$key]['category_pos']-1);
+            // print_r($r);
+            // echo "</br>";
+            // print_r($all_pos);
+            // echo "</br>";
+            if(count(array_intersect($r, $all_pos)) == count($r)){
+                echo count($all_pos)." <<- all_pos count || isin.</br>";
+                $highest = $rows[$key]['category_pos'];
+                for($i=1; $i < count($all_pos); $i++) {
+                    echo $highest.".</br>";
+                    if(!in_array($highest ,$all_pos)) {
+                        $current_pos = $highest-1;
+                        break;
+                    } else {
+                        $highest++;
+                    }
+                }
+                // $current_pos = $rows[$key]['category_pos'];
+            }
+            else{
+                echo "is not in. do nothing.</br>";
+            }
+            // if(in_array($rows[$key]['category_pos'], range(1, $rows[$key]['category_pos']-1))) {
+            //     $current_pos = max($all_pos);
+            // }
         }
-        echo "cur pos: ".$current_pos."<br/>";
+        print_r($all_pos);
+        echo " || cur pos: ".$current_pos." || <br/>";
         // $rows[$key]['category_pos'] = 1;
         // echo "id[".$value['category_id']."] : pos = ".$value['category_pos']."</br>";
         // echo "</br>";

@@ -41,7 +41,7 @@ if(! $conn ) {
         <tr>
             <th class="col-3" scope="row">Add category:</th>
             <td class="col-9">
-                <form action="dbconnect.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+                <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                     <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
                     <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
                     <div class="invalid-feedback">
