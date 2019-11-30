@@ -71,7 +71,7 @@ if(! $conn ) {
             </td>
         </tr>
         <tr>
-            <th scope="row">Set categories arranging:</th>
+            <th scope="row">Set categories arranging: </br>(show in products page)</th>
             <td>
                 developing...
             </td>

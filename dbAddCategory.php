@@ -12,6 +12,7 @@ if(! $conn ) {
 }
 echo 'Connected successfully</br>';
 
+// add image to server and query data to database
 if(isset($_POST["submit"])) {
     // check data and set default
     $file_name = basename($_FILES["categoryImg"]["name"]);
@@ -65,6 +66,8 @@ if(isset($_POST["submit"])) {
         }
     }
 }
+
+
 
 // close database connection
 mysqli_close($conn);
