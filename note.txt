@@ -4,6 +4,7 @@ create table categories(
     -> category_name char(50) NOT NULL,
     -> category_img char(50) NOT NULL DEFAULT "no-photo.png",
     -> category_pos int NOT NULL DEFAULT 0,
+    -> category_group char(20) NOT NULL DEFAULT "Others",
     -> PRIMARY KEY(category_id));
 
 # products

@@ -28,7 +28,7 @@
 </head>
 
 <body class="container bg-dark">
-    <h1 class="text-light">Icon-Perfect Admin</h1>
+    <h1 class="text-light" id="top">Icon-Perfect Admin</h1>
     <p>&nbsp;</p>
     <hr style="border:2px solid white">
     <p>&nbsp;</p>
@@ -240,6 +240,12 @@
             </div>
             </div>
         </div>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
 
     </div>
+    <div style="bottom:65px; right:20px; position:fixed;"><a href="#top" target="_top"><img src="images/prettyPhoto/arrow-up-icon.png" alt="arrow-up-icon" width="40" height="40"/></a></div>
+    <div style="bottom:20px; right:20px; position:fixed;"><a href="#bottom" target="_top"><img src="images/prettyPhoto/arrow-down-icon.png" alt="arrow-down-icon" width="40" height="40"/></a></div>
+    <div id="bottom"></div>
 </body>
+</html>
