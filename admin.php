@@ -26,6 +26,13 @@ if(! $conn ) {
             } else {
                 return true;
             }
+            var egroup = document.getElementById( "categoryGroup" );
+            if( egroup.value == "" ) {
+                egroup.setAttribute("class", "form-control is-invalid");
+                return false;
+            } else {
+                return true;
+            }
         }
     </script>
 </head>
@@ -59,9 +66,10 @@ if(! $conn ) {
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
                                         echo "id: " . $row['category_id'] . " || "; 
-                                        echo "name: " . $row['category_name']." || "; 
-                                        echo "img file name: " . $row['category_img']." || ";  
-                                        echo "position: " . $row['category_pos']."</br>";
+                                        echo "name: " . $row['category_name'] . " || "; 
+                                        echo "img file name: " . $row['category_img'] . " || ";  
+                                        echo "position: " . $row['category_pos'] . " || ";
+                                        echo "group: " . $row['category_group'] . "</br>";
                                     }
                                     mysqli_free_result($res); 
                                 } else {
@@ -78,16 +86,16 @@ if(! $conn ) {
                                 <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
                                 <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" placeholder="Enter group of category..."></br>
                                 <div class="invalid-feedback">
-                                    Please enter category name.
+                                    Please enter category name and group.
                                 </div>
-                                </br><input type="submit" class="btn btn-outline-light" value="Add category" name="add-category">
+                                </br><input type="submit" class="btn btn-outline-light" value="Add category" name="submit">
                             </form>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Remove category:</th>
                         <td>
-                            <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+                            <form action="dbRemoveCategory.php" method="post" enctype="multipart/form-data">
                             <?php
                                 $sql = "SELECT * FROM categories";
                                 if ($res = mysqli_query($conn, $sql)) {
@@ -109,7 +117,7 @@ if(! $conn ) {
                                     echo "Cannot query.</br>";
                                 }
                             ?>
-                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="remove-category">
+                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="submit">
                             </form>
                         </td>
                     </tr>

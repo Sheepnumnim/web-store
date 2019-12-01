@@ -12,62 +12,15 @@ if(! $conn ) {
 }
 echo 'Connected successfully</br>';
 
-// add image to server and query data to database
 if(isset($_POST["submit"])) {
-    // check data and set default
-    $file_name = basename($_FILES["categoryImg"]["name"]);
-    echo "file name: " . $file_name;
-    if($file_name == NULL) {
-        $file_name = "no-photo.png";
-    }
-    foreach ($_POST as $key => $value) {
-        if($value == NULL) {
-            echo $key . " : NULL</br>";
-        } else {
-            echo $key . " : " . $value . "</br>";
-        }
-    }
-    echo $file_name . "</br>";
-
-    $target_dir = "uploads/categories/";
-    $target_file = $target_dir . $file_name;
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    
-    // Check if image file is a actual image or fake image
-    if($_FILES["categoryImg"]["tmp_name"] != NULL) {
-        $check = getimagesize($_FILES["categoryImg"]["tmp_name"]);
-        if($check !== false) {
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.</br>";
-            $uploadOk = 0;
-        }
-    } else {
-        $uploadOk = 1;
-    }
-    
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.</br>";
-    } else { // if everything is ok, try to upload file
-        if (move_uploaded_file($_FILES["categoryImg"]["tmp_name"], $target_dir . $file_name)) {
-            echo "The file ". basename($_FILES["categoryImg"]["name"]) . " has been uploaded.</br>";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-
-        $sql = "INSERT INTO categories 
-        SET category_name = '$_POST[categoryName]',
-        category_img = '$file_name',
-        category_group = '$_POST[categoryGroup]'";
-        if (mysqli_query($conn, $sql, MYSQLI_STORE_RESULT)) {
-            echo "Successfull query.</br>";
-        } else {
-            echo "Cannot query1.</br>";
+    if(!empty($_POST['ckeck_cat_id'])) {
+        foreach($_POST['ckeck_cat_id'] as $check) {
+                echo $check; //echoes the value set in the HTML form for each checked checkbox.
+                             //so, if I were to check 1, 3, and 5 it would echo value 1, value 3, value 5.
+                             //in your case, it would echo whatever $row['Report ID'] is equivalent to.
         }
     }
 }
-
 // arrange pos
 // fetch rows
 $num_fields = 0;
@@ -83,7 +36,7 @@ if ($res = mysqli_query($conn, $sql)) {
     $num_rows = mysqli_num_rows($res);
     mysqli_free_result($res); 
 } else {
-    echo "Cannot query2.</br>";
+    echo "Cannot query.</br>";
 }
 echo "</br>";
 
@@ -148,7 +101,7 @@ foreach($rows as $row) {
     if ($res = mysqli_query($conn, $sql)) {
         echo "Query success.</br>";
     } else {
-        echo "Cannot query3.</br>";
+        echo "Cannot query.</br>";
     }
 }
 
