@@ -1,3 +1,25 @@
+<?php
+$dbhost = 'localhost:3306';
+$dbuser = 'root';
+$dbpass = '';
+$dbname = 'iconperfect';
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+      
+if(! $conn ) {
+    die('Could not connect: ' . mysqli_error());
+}
+$sql = "SELECT product_img, product_name FROM products";
+if ($res = mysqli_query($conn, $sql)) {
+    $count = 0;
+    while ($row = mysqli_fetch_array($res)) { 
+        $rows[$count] = $row;
+        $count++;
+    }
+    mysqli_free_result($res); 
+} else {
+    echo "Cannot query.</br>";
+}
+?>
 <!DOCTYPE HTML>
 <html lang="en-US">
     <head>
@@ -42,7 +64,6 @@
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                     </div>
-
                     <div class="content-1530 center-relative block">
                         <script>
                             var slider1_speed = "500";
@@ -52,15 +73,11 @@
                         </script>
                         <div class="image-slider-wrapper">
                             <ul id="slider1" class="image-slider slides center-text">
-                                <li>
-                                    <img src="demo-images/home_img_02.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="demo-images/home_img_03.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="demo-images/home_img_01.jpg" alt="">
-                                </li>
+                                <?php
+                                    foreach($rows as $row) {
+                                        echo "<li><img src=\"uploads/products/".$row['product_img']."\" alt=\"".$row['product_name']."\">";
+                                    }
+                                ?>
                             </ul>                        
                             <div class="slider1_pagination carousel_pagination left"></div>
                         </div>

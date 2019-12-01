@@ -44,6 +44,7 @@ if(! $conn ) {
                 <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                     <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
                     <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
+                    <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" placeholder="Enter group of category..."></br>
                     <div class="invalid-feedback">
                         Please enter category name.
                     </div>
@@ -100,7 +101,7 @@ if(! $conn ) {
                                 echo "<div class=\"form-check\">";
                                 echo "<input class=\"form-check-input\" type=\"radio\" name=\"category_id\" id=". $row['category_id'] ." value=". $row['category_id'] ." checked>";
                                 echo "<label class=\"form-check-label\" for=". $row['category_id'] .">";
-                                echo $row['category_name']; 
+                                echo ucfirst($row['category_name']); 
                                 echo "</label>";
                                 echo "</div>";
                             }
