@@ -6,11 +6,11 @@
 // $dbpass = '';
 // $dbname = 'iconperfect';
 
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 $dbhost = 'sql308.epizy.com';
 $dbuser = 'epiz_24853426';
 $dbpass = 'UndeclAred0#';
 $dbname = 'epiz_24853426_iconperfect';
+
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
       
 if(! $conn ) {
