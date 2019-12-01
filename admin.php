@@ -1,14 +1,4 @@
-<?php
-$dbhost = 'localhost:3306';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'iconperfect';
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-      
-if(! $conn ) {
-    die('Could not connect: ' . mysqli_error());
-}
-?>
+<?php include('dbconnect.php');?>
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +28,7 @@ if(! $conn ) {
 </head>
 
 <body class="container bg-dark">
-    <h1 class="text-light">Admin</h1>
+    <h1 class="text-light">Icon-Perfect Admin</h1>
     <p>&nbsp;</p>
     <hr style="border:2px solid white">
     <p>&nbsp;</p>
@@ -194,7 +184,7 @@ if(! $conn ) {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Set highlight products:</th>
+                        <th scope="row">Set highlight products:</br>(show in home page)</th>
                         <td>
                             developing...
                         </td>

@@ -1,16 +1,5 @@
+<?php include('dbconnect.php');?>
 <?php
-
-// connect to database
-$dbhost = 'localhost:3306';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'iconperfect';
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-      
-if(! $conn ) {
-    die('Could not connect: ' . mysqli_error());
-}
-echo 'Connected successfully</br>';
 
 // add image to server and query data to database
 if(isset($_POST["submit"])) {

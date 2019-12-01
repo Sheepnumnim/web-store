@@ -1,13 +1,5 @@
+<?php include('dbconnect.php');?>
 <?php
-$dbhost = 'localhost:3306';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'iconperfect';
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-      
-if(! $conn ) {
-    die('Could not connect: ' . mysqli_error());
-}
 $sql = "SELECT product_img, product_name FROM products";
 if ($res = mysqli_query($conn, $sql)) {
     $count = 0;
