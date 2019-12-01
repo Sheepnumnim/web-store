@@ -39,6 +39,25 @@ if(! $conn ) {
     <table class="table table-striped table-dark">
         <caption>Categories</caption>
         <tr>
+            <th scope="row">All categories:</th>
+            <td>
+                <?php
+                    $sql = "SELECT * FROM categories";
+                    if ($res = mysqli_query($conn, $sql)) {
+                        while ($row = mysqli_fetch_array($res)) { 
+                            echo "id: " . $row['category_id'] . " || "; 
+                            echo "name: " . $row['category_name']." || "; 
+                            echo "img file name: " . $row['category_img']." || ";  
+                            echo "position: " . $row['category_pos']."</br>";
+                        }
+                        mysqli_free_result($res); 
+                    } else {
+                        echo "Cannot query.</br>";
+                    }
+                ?>
+            </td>
+        </tr>
+        <tr>
             <th class="col-3" scope="row">Add category:</th>
             <td class="col-9">
                 <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
@@ -53,16 +72,23 @@ if(! $conn ) {
             </td>
         </tr>
         <tr>
-            <th scope="row">All categories:</th>
+            <th scope="row">Remove category:</th>
             <td>
                 <?php
                     $sql = "SELECT * FROM categories";
                     if ($res = mysqli_query($conn, $sql)) {
                         while ($row = mysqli_fetch_array($res)) { 
-                            echo "id: " . $row['category_id'] . " || "; 
-                            echo "name: " . $row['category_name']." || "; 
-                            echo "img file name: " . $row['category_img']." || ";  
-                            echo "position: " . $row['category_pos']."</br>";
+                            echo "<div class=\"custom-control custom-checkbox\">";
+                            echo "<input class=\"custom-control-input\" type=\"checkbox\" id=\""
+                                .$row['category_id']."\" value=\""
+                                .$row['category_id']."\" aria-label=\"...\" name=\"ckeck_cat_id[]\">";
+                            echo "<label class=\"custom-control-label\" for=\"".$row['category_id']."\">"
+                                ."id: " . $row['category_id'] . " || "
+                                ."name: " . ucfirst($row['category_name']) . " || "
+                                ."img file name: " . $row['category_img'] . " || "
+                                ."position: " . $row['category_pos'] . "</br>"
+                                ."</label>";
+                            echo "</div>";
                         }
                         mysqli_free_result($res); 
                     } else {
@@ -86,6 +112,27 @@ if(! $conn ) {
     <!-- Products -->
     <table class="table table-striped table-dark">
         <caption>Products</caption>
+        <tr>
+            <th scope="row">All products:</th>
+            <td>
+                <?php
+                    $sql = "SELECT * FROM products";
+                    if ($res = mysqli_query($conn, $sql)) {
+                        while ($row = mysqli_fetch_array($res)) { 
+                            echo "id: " . $row['product_id'] . " || "; 
+                            echo "name: " . $row['product_name']." || "; 
+                            echo "img file name: " . $row['product_img']." || ";  
+                            echo "description: " . $row['product_description'] . " || ";
+                            echo "category: " . $row['category_id'] . "</br>"; 
+                        }
+                        mysqli_free_result($res); 
+                    } else {
+                        echo "Cannot query.</br>";
+                    }
+                ?>
+            </td>
+        </tr>
+
         <tr>
             <th class="col-3" scope="row">Add product:</th>
             <td class="col-9">
@@ -112,26 +159,6 @@ if(! $conn ) {
                     ?>
                     </br><input type="submit" class="btn btn-outline-light" value="Add product" name="submit">
                 </form>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">All products:</th>
-            <td>
-                <?php
-                    $sql = "SELECT * FROM products";
-                    if ($res = mysqli_query($conn, $sql)) {
-                        while ($row = mysqli_fetch_array($res)) { 
-                            echo "id: " . $row['product_id'] . " || "; 
-                            echo "name: " . $row['product_name']." || "; 
-                            echo "img file name: " . $row['product_img']." || ";  
-                            echo "description: " . $row['product_description'] . " || ";
-                            echo "category: " . $row['category_id'] . "</br>"; 
-                        }
-                        mysqli_free_result($res); 
-                    } else {
-                        echo "Cannot query.</br>";
-                    }
-                ?>
             </td>
         </tr>
         <tr>
