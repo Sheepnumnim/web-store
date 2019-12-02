@@ -184,6 +184,36 @@
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row">Remove product:</th>
+                        <td>
+                            <form action="dbRemoveCategory.php" method="post" enctype="multipart/form-data">
+                            <?php
+                                $sql = "SELECT * FROM products";
+                                if ($res = mysqli_query($conn, $sql)) {
+                                    while ($row = mysqli_fetch_array($res)) { 
+                                        echo "<div class=\"custom-control custom-checkbox\">";
+                                        echo "<input class=\"custom-control-input\" type=\"checkbox\" id=\""
+                                            .$row['product_id']."\" value=\""
+                                            .$row['product_id']."\" aria-label=\"...\" name=\"ckeck_cat_id[]\">";
+                                        echo "<label class=\"custom-control-label\" for=\"".$row['product_id']."\">"
+                                            ."id: " . $row['category_id'] . " || "
+                                            ."name: " . ucfirst($row['product_name']) . " || "
+                                            ."img file name: " . $row['product_img'] . " || "
+                                            ."description: " . $row['product_description'] . " || "
+                                            ."category: " . $row['category_id'] . "</br>"
+                                            ."</label>";
+                                        echo "</div>";
+                                    }
+                                    mysqli_free_result($res); 
+                                } else {
+                                    echo "Cannot query.</br>";
+                                }
+                            ?>
+                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="submit">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row">Set highlight products:</br>(show in home page)</th>
                         <td>
                             developing...
