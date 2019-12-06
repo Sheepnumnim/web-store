@@ -21,6 +21,7 @@
     
     <div class="accordion" id="accordionExample">
 
+        <!-- category -->
         <div class="card bg-dark">
             <div class="card-header" id="headingOne">
             <h2 class="mb-0">
@@ -39,8 +40,8 @@
                         <td style="width: 80%">
                             <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                                 <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
-                                <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
-                                <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" placeholder="Enter group of category..."></br>
+                                <input type="text" class="form-control" name="categoryName" id="categoryName" maxlength="50" placeholder="Enter category name (limit 50 characters)"></br>
+                                <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" maxlength="20" placeholder="Enter group of category (limit 20 characters)"></br>
                                 <div class="invalid-feedback">
                                     Please enter category name and group.
                                 </div>
@@ -52,59 +53,38 @@
                         <th scope="row">All categories:</th>
                         <td>
                             <?php
-                                $count = 0;
+                                $ccount = 0;
+                                $path = "uploads/categories/";
                                 $sql = "SELECT * FROM categories";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
                                         echo "<form action=\"<?php echo $_SERVER[PHP_SELF]; ?>\" method=\"post\">";
                                         echo "<div class=\"form-row\">";
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"hidden\" id=\"hiddenid".$count."\" name=\"hiddenfav\" value=\"".$row['category_id']."\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_cid".$ccount."\" name=\"hiddenfav\" value=\"".$row['category_id']."\">";
                                         echo "<input type=\"text\" class=\"form-control\" name=\"categoryPos\" id=\"cPos".$row['category_id']."\" disabled value=\"".$row['category_pos']."\">";
                                         echo "</div>";
                                         echo "<div class=\"col-3\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryGroup\" id=\"cGroup".$row['category_id']."\" disabled value=\"".$row['category_group']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryGroup\" id=\"cGroup".$row['category_id']."\" maxlength=\"20\" disabled value=\"".$row['category_group']."\">";
                                         echo "</div>";
                                         echo "<div class=\"col-5\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryName\" id=\"cName".$row['category_id']."\" disabled value=\"".$row['category_name']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryName\" id=\"cName".$row['category_id']."\" maxlength=\"50\" disabled value=\"".$row['category_name']."\">";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
-                                        echo "<span href=\"\" class=\"favme dashicons dashicons-heart\" id=\"cFav1\"></span>";
-                                        echo "<input type=\"hidden\" id=\"hiddenfav".$row['category_id']."\" name=\"hiddenfav\" value=\"0\">";
+                                        echo "<a href=\"".$path.$row['category_img']."\" id=\"image".$row['category_id']."\">image</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
-                                        echo "<a href=\"javascript:;\" id=\"edit".$row['category_id']."\">edit</a>";
+                                        echo "<a href=\"javascript:;\" id=\"cedit".$row['category_id']."\">edit</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
-                                        echo "<a href=\"javascript:;\" id=\"delete".$row['category_id']."\">delete</a>";
+                                        echo "<a href=\"javascript:;\" id=\"cdelete".$row['category_id']."\">delete</a>";
                                         echo "</div>";
                                         echo "</div> </form>";
-                                        // echo "count: " . $count . " || id: " . $row['category_id'];
+                                        // echo "count: " . $ccount . " || id: " . $row['category_id'];
                                         echo "<hr>";
-                                        $count++;
+                                        $ccount++;
                                     }
-                                    echo "<input type=\"hidden\" id=\"hiddencount\" name=\"hiddenfav\" value=\"".$count."\">";
-                                    mysqli_free_result($res); 
-                                } else {
-                                    echo "Cannot query.</br>";
-                                }
-                            ?>
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Debug</th>
-                        <td>
-                            <?php
-                                $sql = "SELECT * FROM categories";
-                                if ($res = mysqli_query($conn, $sql)) {
-                                    while ($row = mysqli_fetch_array($res)) { 
-                                        echo "id: " . $row['category_id'] . " || "; 
-                                        echo "name: " . $row['category_name'] . " || "; 
-                                        echo "img file name: " . $row['category_img'] . " || ";  
-                                        echo "position: " . $row['category_pos'] . " || ";
-                                        echo "group: " . $row['category_group'] . "</br>";
-                                    }
+                                    echo "<input type=\"hidden\" id=\"hidden_ccount\" name=\"hiddenfav\" value=\"".$ccount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";
@@ -119,6 +99,7 @@
             </div>
         </div>
 
+        <!-- product -->
         <div class="card bg-dark">
             <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
@@ -129,36 +110,15 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-                <table class="table table-striped table-dark">
-                    <caption>Products</caption>
+                <table class="table table-striped table-dark table-responsive-xl">
+                <tbody>
                     <tr>
-                        <th scope="row">All products:</th>
-                        <td>
-                            <?php
-                                $sql = "SELECT * FROM products";
-                                if ($res = mysqli_query($conn, $sql)) {
-                                    while ($row = mysqli_fetch_array($res)) { 
-                                        echo "id: " . $row['product_id'] . " || "; 
-                                        echo "name: " . $row['product_name']." || "; 
-                                        echo "img file name: " . $row['product_img']." || ";  
-                                        echo "description: " . $row['product_description'] . " || ";
-                                        echo "category: " . $row['category_id'] . "</br>"; 
-                                    }
-                                    mysqli_free_result($res); 
-                                } else {
-                                    echo "Cannot query.</br>";
-                                }
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th class="col-3" scope="row">Add product:</th>
-                        <td class="col-9">
-                            <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
+                        <th style="width: 20%" scope="row">Add product:</th>
+                        <td style="width: 80%">
+                        <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
                                 <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
-                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name..."></br>
-                                <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description...(optional)"></textarea>
+                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name (limit 50 character)"></br>
+                                <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description  (limit 100 character) (optional)"></textarea>
                                 <label class="col-form-label">Add to category</label>
                                 <?php
                                     $sql = "SELECT * FROM categories";
@@ -181,47 +141,55 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Remove product:</th>
+                        <th scope="row">All products:</th>
                         <td>
-                            <form action="dbRemoveCategory.php" method="post" enctype="multipart/form-data">
                             <?php
+                                $pcount = 0;
+                                $path = "uploads/products/";
                                 $sql = "SELECT * FROM products";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
-                                        echo "<div class=\"custom-control custom-checkbox\">";
-                                        echo "<input class=\"custom-control-input\" type=\"checkbox\" id=\""
-                                            .$row['product_id']."\" value=\""
-                                            .$row['product_id']."\" aria-label=\"...\" name=\"ckeck_cat_id[]\">";
-                                        echo "<label class=\"custom-control-label\" for=\"".$row['product_id']."\">"
-                                            ."id: " . $row['category_id'] . " || "
-                                            ."name: " . ucfirst($row['product_name']) . " || "
-                                            ."img file name: " . $row['product_img'] . " || "
-                                            ."description: " . $row['product_description'] . " || "
-                                            ."category: " . $row['category_id'] . "</br>"
-                                            ."</label>";
+                                        echo "<form action=\"<?php echo $_SERVER[PHP_SELF]; ?>\" method=\"post\">";
+                                        echo "<div class=\"form-row\">";
+                                        echo "<div class=\"col-8\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_pid".$pcount."\" name=\"hiddenfav\" value=\"".$row['product_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" name=\"productName\" id=\"pName".$row['product_id']."\" disabled value=\"".$row['product_name']."\">";
                                         echo "</div>";
+                                        echo "<div class=\"col-1\">";
+                                        echo "<span href=\"\" class=\"favme dashicons dashicons-heart\" id=\"cFav1\"></span>";
+                                        echo "<input type=\"hidden\" id=\"hiddenfav".$row['product_id']."\" name=\"hiddenfav\" value=\"0\">";
+                                        echo "</div>";
+                                        echo "<div class=\"col-1\">";
+                                        echo "<a href=\"".$path.$row['product_img']."\" id=\"image".$row['product_id']."\">image</a>";
+                                        echo "</div>";
+                                        echo "<div class=\"col-1\">";
+                                        echo "<a href=\"javascript:;\" id=\"pedit".$row['product_id']."\">edit</a>";
+                                        echo "</div>";
+                                        echo "<div class=\"col-1\">";
+                                        echo "<a href=\"javascript:;\" id=\"pdelete".$row['product_id']."\">delete</a>";
+                                        echo "</div>";
+                                        echo "</div> </form>";
+                                        // echo "count: " . $pcount . " || id: " . $row['product_id'];
+                                        echo "<hr>";
+                                        $pcount++;
                                     }
+                                    echo "<input type=\"hidden\" id=\"hidden_pcount\" name=\"hiddenfav\" value=\"".$pcount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";
                                 }
                             ?>
-                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="submit">
-                            </form>
+                            
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">Set highlight products:</br>(show in home page)</th>
-                        <td>
-                            developing...
-                        </td>
-                    </tr>
+                </tbody>
                 </table>
 
             </div>
             </div>
         </div>
 
+        <!-- config -->
         <div class="card bg-dark">
             <div class="card-header" id="headingThree">
             <h2 class="mb-0">
@@ -232,11 +200,11 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
-                <table class="table table-striped table-dark">
-                    <caption>Config & database information</caption>
+                <table class="table table-striped table-dark table-responsive-xl">
+                <tbody>
                     <tr>
-                        <th class="col-3" scope="row">Real path:</th>
-                        <td class="col-9">
+                        <th style="width: 20%" scope="row">Real path:</th>
+                        <td style="width: 80%">
                             <?php
                                 $realpath = realpath(__FILE__);
                                 echo $realpath;
@@ -262,6 +230,7 @@
                             ?>
                         </td>
                     </tr>
+                </tbody>
                 </table>
 
             </div>
@@ -277,11 +246,11 @@
     <script src="testjs.js"></script>
     <script>
         $(document).ready(function(){
-            var $count = $("#hiddencount").val();
-            for(var i=0; i<parseInt($count, 10); i++) {
-                var obj_name = "#hiddenid" + i;
+            var $ccount = $("#hidden_ccount").val();
+            for(var i=0; i<parseInt($ccount, 10); i++) {
+                var obj_name = "#hidden_cid" + i;
                 let obj_id = $(obj_name).val();
-                $("#edit" + obj_id).click(function(){
+                $("#cedit" + obj_id).click(function(){
                     if($(this).text() == "edit"){
                         $(this).text("save");
                         $("#cPos" + obj_id).removeAttr("disabled");
@@ -294,6 +263,24 @@
                         $("#cPos" + obj_id).attr("disabled", "true");
                         $("#cGroup" + obj_id).attr("disabled", "true");
                         $("#cName" + obj_id).attr("disabled", "true");
+                        // $("#cFav1").removeClass("favme");
+                    }
+                });
+            }
+
+            var $pcount = $("#hidden_pcount").val();
+            for(var i=0; i<parseInt($pcount, 10); i++) {
+                var obj_name = "#hidden_pid" + i;
+                let obj_id = $(obj_name).val();
+                $("#pedit" + obj_id).click(function(){
+                    if($(this).text() == "edit"){
+                        $(this).text("save");
+                        $("#pName" + obj_id).removeAttr("disabled");
+                        // $("#cFav1").addClass("favme");
+                        console.log(obj_id);
+                    } else {
+                        $(this).text("edit");
+                        $("#pName" + obj_id).attr("disabled", "true");
                         // $("#cFav1").removeClass("favme");
                     }
                 });
