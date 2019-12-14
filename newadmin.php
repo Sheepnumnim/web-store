@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="//s.w.org/wp-includes/css/dashicons.css?20150710" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css"  href='testcss.css' />
+    <link href="//s.w.org/wp-includes/css/dashicons.css?20150710" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -58,20 +58,27 @@
                                 $sql = "SELECT * FROM categories";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
+                                        // form
                                         echo "<form action=\"<?php echo $_SERVER[PHP_SELF]; ?>\" method=\"post\">";
                                         echo "<div class=\"form-row\">";
+                                        // hiddenid + categoryPos
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_cid".$ccount."\" name=\"hiddenfav\" value=\"".$row['category_id']."\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryPos\" id=\"cPos".$row['category_id']."\" disabled value=\"".$row['category_pos']."\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_cid".$ccount."\" name=\"hiddenid\" value=\"".$row['category_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cPos".$row['category_id']."\" name=\"categoryPos\" disabled value=\"".$row['category_pos']."\">";
                                         echo "</div>";
+                                        // categoryGroup
                                         echo "<div class=\"col-3\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryGroup\" id=\"cGroup".$row['category_id']."\" maxlength=\"20\" disabled value=\"".$row['category_group']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\"id=\"cGroup".$row['category_id']."\" name=\"categoryGroup\"  maxlength=\"20\" disabled value=\"".$row['category_group']."\">";
                                         echo "</div>";
+                                        // categoryName
                                         echo "<div class=\"col-5\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"categoryName\" id=\"cName".$row['category_id']."\" maxlength=\"50\" disabled value=\"".$row['category_name']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".$row['category_name']."\">";
                                         echo "</div>";
+                                        // hiddenimg
                                         echo "<div class=\"col-1\">";
-                                        echo "<a href=\"".$path.$row['category_img']."\" id=\"image".$row['category_id']."\">image</a>";
+                                        echo "<input type=\"hidden\" id=\"hidden_cimg".$row['category_id']."\" name=\"hiddenimg\" value=\"".$path.$row['category_img']."\">";
+                                        // echo $ccount." ".$path.$row['category_img'];
+                                        echo "<a href=\"".$path.$row['category_img']."\" id=\"cimage".$row['category_id']."\">image</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"cedit".$row['category_id']."\">edit</a>";
@@ -79,12 +86,13 @@
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"cdelete".$row['category_id']."\">delete</a>";
                                         echo "</div>";
+                                        // categoryImg
+                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"cfile".$row['category_id']."\" name=\"categoryImg\">";
                                         echo "</div> </form>";
-                                        // echo "count: " . $ccount . " || id: " . $row['category_id'];
                                         echo "<hr>";
                                         $ccount++;
                                     }
-                                    echo "<input type=\"hidden\" id=\"hidden_ccount\" name=\"hiddenfav\" value=\"".$ccount."\">";
+                                    echo "<input type=\"hidden\" id=\"hidden_ccount\" name=\"hiddencount\" value=\"".$ccount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";
@@ -115,7 +123,7 @@
                     <tr>
                         <th style="width: 20%" scope="row">Add product:</th>
                         <td style="width: 80%">
-                        <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
+                            <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
                                 <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
                                 <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name (limit 50 character)"></br>
                                 <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description  (limit 100 character) (optional)"></textarea>
@@ -149,18 +157,23 @@
                                 $sql = "SELECT * FROM products";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
+                                        // form
                                         echo "<form action=\"<?php echo $_SERVER[PHP_SELF]; ?>\" method=\"post\">";
                                         echo "<div class=\"form-row\">";
+                                        // hiddenid + productName
                                         echo "<div class=\"col-8\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_pid".$pcount."\" name=\"hiddenfav\" value=\"".$row['product_id']."\">";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"productName\" id=\"pName".$row['product_id']."\" disabled value=\"".$row['product_name']."\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_pid".$pcount."\" name=\"hiddenid\" value=\"".$row['product_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"pName".$row['product_id']."\" name=\"productName\" disabled value=\"".$row['product_name']."\">";
                                         echo "</div>";
+                                        // hiddenfav
                                         echo "<div class=\"col-1\">";
                                         echo "<span href=\"\" class=\"favme dashicons dashicons-heart\" id=\"cFav1\"></span>";
                                         echo "<input type=\"hidden\" id=\"hiddenfav".$row['product_id']."\" name=\"hiddenfav\" value=\"0\">";
                                         echo "</div>";
+                                        // hiddenimg
                                         echo "<div class=\"col-1\">";
-                                        echo "<a href=\"".$path.$row['product_img']."\" id=\"image".$row['product_id']."\">image</a>";
+                                        echo "<input type=\"hidden\" id=\"hidden_pimg".$row['product_id']."\" name=\"hiddenimg\" value=\"".$path.$row['product_img']."\">";
+                                        echo "<a href=\"".$path.$row['product_img']."\" id=\"pimage".$row['product_id']."\">image</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"pedit".$row['product_id']."\">edit</a>";
@@ -168,8 +181,9 @@
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"pdelete".$row['product_id']."\">delete</a>";
                                         echo "</div>";
+                                        // productImg
+                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"pfile".$row['product_id']."\" name=\"productImg\">";
                                         echo "</div> </form>";
-                                        // echo "count: " . $pcount . " || id: " . $row['product_id'];
                                         echo "<hr>";
                                         $pcount++;
                                     }
@@ -184,7 +198,6 @@
                     </tr>
                 </tbody>
                 </table>
-
             </div>
             </div>
         </div>
@@ -256,14 +269,21 @@
                         $("#cPos" + obj_id).removeAttr("disabled");
                         $("#cGroup" + obj_id).removeAttr("disabled");
                         $("#cName" + obj_id).removeAttr("disabled");
-                        // $("#cFav1").addClass("favme");
-                        console.log(obj_id);
+                        $("#cimage" + obj_id).text("change image");
+                        $("#cimage" + obj_id).attr("href", "javascript:;");
+                        // $("#cimage" + obj_id).addClass("disabled");
+                        $("#cfile" + obj_id).removeClass("d-none");
+                        console.log("clicked: " + obj_id);
                     } else {
                         $(this).text("edit");
                         $("#cPos" + obj_id).attr("disabled", "true");
                         $("#cGroup" + obj_id).attr("disabled", "true");
                         $("#cName" + obj_id).attr("disabled", "true");
-                        // $("#cFav1").removeClass("favme");
+                        $("#cimage" + obj_id).text("image");
+                        $("#cimage" + obj_id).attr("href", $("#hidden_cimg" + obj_id).val());
+                        // $("#cimage" + obj_id).removeClass("disabled");
+                        $("#cfile" + obj_id).addClass("d-none");
+                        console.log("clicked: " + obj_id);
                     }
                 });
             }
@@ -276,12 +296,21 @@
                     if($(this).text() == "edit"){
                         $(this).text("save");
                         $("#pName" + obj_id).removeAttr("disabled");
+                        $("#pimage" + obj_id).text("change image");
+                        $("#pimage" + obj_id).attr("href", "javascript:;");
+                        // $("#pimage" + obj_id).addClass("disabled");
+                        $("#pfile" + obj_id).removeClass("d-none");
                         // $("#cFav1").addClass("favme");
-                        console.log(obj_id);
+                        console.log("clicked: " + obj_id);
                     } else {
                         $(this).text("edit");
                         $("#pName" + obj_id).attr("disabled", "true");
+                        $("#pimage" + obj_id).text("image");
+                        $("#pimage" + obj_id).attr("href", $("#hidden_pimg" + obj_id).val());
+                        // $("#pimage" + obj_id).removeClass("disabled");
+                        $("#pfile" + obj_id).addClass("d-none");
                         // $("#cFav1").removeClass("favme");
+                        console.log("clicked: " + obj_id);
                     }
                 });
             }
