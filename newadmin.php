@@ -5,34 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="stylesheet" type="text/css"  href='testcss.css' /> -->
-    <link href="//s.w.org/wp-includes/css/dashicons.css?20150710" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//s.w.org/wp-includes/css/dashicons.css?20150710" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/mystyle.css" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <title>Document</title>
-    <style>
-        .myfav::before {
-            content: "\f487";
-        }
-        /* .myfav.active {
-            color: red;
-        } */
-        .myfav.active:hover {
-            cursor: pointer;
-        }
-        .myfav.selected {
-            color:  red;
-        }
-        .myfav{
-            color: lightgrey;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
 </head>
 <body class="container bg-dark">
     <h1 class="text-light" id="top">Icon-Perfect Admin</h1>
@@ -98,7 +77,7 @@
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
                                         echo "<input type=\"hidden\" id=\"hidden_cimg".$row['category_id']."\" name=\"hiddenimg\" value=\"".$path.$row['category_img']."\">";
-                                        echo "<a href=\"".$path.$row['category_img']."\" id=\"cimage".$row['category_id']."\">image</a>";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['category_img']."\" class=\"zoomable\" id=\"cimage".$row['category_id']."\">image</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"cedit".$row['category_id']."\">edit</a>";
@@ -193,7 +172,7 @@
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
                                         echo "<input type=\"hidden\" id=\"hidden_pimg".$row['product_id']."\" name=\"hiddenimg\" value=\"".$path.$row['product_img']."\">";
-                                        echo "<a href=\"".$path.$row['product_img']."\" id=\"pimage".$row['product_id']."\">image</a>";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['product_img']."\" class=\"zoomable\" id=\"pimage".$row['product_id']."\">image</a>";
                                         echo "</div>";
                                         echo "<div class=\"col-1\">";
                                         echo "<a href=\"javascript:;\" id=\"pedit".$row['product_id']."\">edit</a>";
@@ -276,74 +255,8 @@
     <div style="bottom:65px; right:20px; position:fixed;"><a href="#top" target="_top"><img src="images/prettyPhoto/arrow-up-icon.png" alt="arrow-up-icon" width="40" height="40"/></a></div>
     <div style="bottom:20px; right:20px; position:fixed;"><a href="#bottom" target="_top"><img src="images/prettyPhoto/arrow-down-icon.png" alt="arrow-down-icon" width="40" height="40"/></a></div>
     <div id="bottom"></div>
-    <!-- <script src="testjs.js"></script> -->
-    <script>
-        $(document).ready(function(){
-            var $ccount = $("#hidden_ccount").val();
-            for(var i=0; i<parseInt($ccount, 10); i++) {
-                var obj_name = "#hidden_cid" + i;
-                let obj_id = $(obj_name).val();
-                $("#cedit" + obj_id).click(function(){
-                    if($(this).text() == "edit"){
-                        $(this).text("save");
-                        $("#cPos" + obj_id).removeAttr("disabled");
-                        $("#cGroup" + obj_id).removeAttr("disabled");
-                        $("#cName" + obj_id).removeAttr("disabled");
-                        $("#cimage" + obj_id).text("change image");
-                        $("#cimage" + obj_id).attr("href", "javascript:;");
-                        $("#cfile" + obj_id).removeClass("d-none");
-                        console.log("clicked: " + obj_id);
-                    } else {
-                        $(this).text("edit");
-                        $("#cPos" + obj_id).attr("disabled", "true");
-                        $("#cGroup" + obj_id).attr("disabled", "true");
-                        $("#cName" + obj_id).attr("disabled", "true");
-                        $("#cimage" + obj_id).text("image");
-                        $("#cimage" + obj_id).attr("href", $("#hidden_cimg" + obj_id).val());
-                        $("#cfile" + obj_id).addClass("d-none");
-                        console.log("clicked: " + obj_id);
-                    }
-                });
-            }
 
-            var $pcount = $("#hidden_pcount").val();
-            for(var i=0; i<parseInt($pcount, 10); i++) {
-                var obj_name = "#hidden_pid" + i;
-                let obj_id = $(obj_name).val();
-                $("#pedit" + obj_id).click(function(){
-                    if($(this).text() == "edit"){
-                        $(this).text("save");
-                        $("#pName" + obj_id).removeAttr("disabled");
-                        $("#pimage" + obj_id).text("change image");
-                        $("#pimage" + obj_id).attr("href", "javascript:;");
-                        $("#pfile" + obj_id).removeClass("d-none");
-                        $("#pFav" + obj_id).addClass("active");
-                        $("#pFav" + obj_id).click(function(){
-                            $(this).toggleClass("selected");
-                            if($(this).hasClass("selected")) {
-                                $("#hiddenfav" + obj_id).val(1);
-                            } else {
-                                $("#hiddenfav" + obj_id).val(0);
-                            }
-                            console.log("hiddenfav" + obj_id + ": " + $("#hiddenfav" + obj_id).val())
-                        });
-                        console.log("clicked: " + obj_id);
-                    } else {
-                        $(this).text("edit");
-                        $("#pName" + obj_id).attr("disabled", "true");
-                        $("#pimage" + obj_id).text("image");
-                        $("#pimage" + obj_id).attr("href", $("#hidden_pimg" + obj_id).val());
-                        $("#pfile" + obj_id).addClass("d-none");
-                        $("#pFav" + obj_id).removeClass("active");
-                        console.log("clicked: " + obj_id);
-                    }
-                });
-
-                if($("#hiddenfav" + obj_id).val() == 1) {
-                    $("#pFav" + obj_id).addClass("selected");
-                }
-            }
-        });
-    </script>
+    <script src="js/myscript.js"></script>
+    <script src="http://static.tumblr.com/xz44nnc/o5lkyivqw/jquery-1.3.2.min.js"></script>
 </body>
 </html>
