@@ -14,11 +14,6 @@ create table products(
     -> product_img char(50) NOT NULL DEFAULT "no-photo.png",
     -> product_description char(100) NOT NULL DEFAULT "NO IMAGE DESCRIPTION",
     -> category_id int NOT NULL DEFAULT 1,
+    -> product_fav boolean NOT NULL DEFAULT FAULT;
     -> PRIMARY KEY(product_id),
     -> FOREIGN KEY(category_id) REFERENCES categories(category_id));
-
-# highlight_product
-create table highlight_product(
-    -> h_pos int NOT NULL DEFAULT 0,
-    -> product_id int NOT NULL,
-    -> FOREIGN KEY(product_id) REFERENCES products(product_id));
