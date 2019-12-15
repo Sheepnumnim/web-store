@@ -14,6 +14,7 @@ $(document).ready(function(){
             // $("#cimage" + obj_id).text("change image");
             $("#cimage" + obj_id).attr("src", "");
             $("#cimage" + obj_id).attr("src", "");
+            $("#hiddengroup" + obj_id).removeClass("d-none");
             $("#cfile" + obj_id).removeClass("d-none");
             console.log("clicked: " + obj_id);
         });
@@ -28,6 +29,7 @@ $(document).ready(function(){
             $("#cimage" + obj_id).removeClass("d-none");
             // $("#cimage" + obj_id).text("image");
             $("#cimage" + obj_id).attr("src", $("#hidden_cimg" + obj_id).val());
+            $("#hiddengroup" + obj_id).addClass("d-none");
             $("#cfile" + obj_id).addClass("d-none");
             console.log("clicked: " + obj_id);
         });
