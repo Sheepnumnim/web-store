@@ -52,12 +52,9 @@
                     <tr>
                         <th style="width: 20%" scope="row">Add category:</th>
                         <td style="width: 80%">
-                            <form action="dbUpdateCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+                            <form action="dbUpdateCategory.php" method="post" enctype="multipart/form-data">
                                 <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
                                 <input type="text" class="form-control" name="categoryName" id="categoryName" maxlength="50" placeholder="Enter category name (limit 50 characters)" required></br>
-                                <div class="invalid-feedback">
-                                    Please enter category name and group.
-                                </div>
                                 <legend class="col-form-label">Category group</legend>
                                 <div>
                                     <?php
@@ -65,19 +62,19 @@
                                         foreach($cGroupArray as $data) {
                                             echo "<div class=\"form-check\">";
                                             if($data == "Others") {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cGroup".$count."\" value=\"".$data."\" checked>";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"addCGroup".$count."\" value=\"".$data."\" checked>";
                                             } else {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cGroup".$count."\" value=\"".$data."\">";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"addCGroup".$count."\" value=\"".$data."\">";
                                             }
-                                            echo "<label class=\"form-check-label\" for=\"cGroup".$count."\">";
+                                            echo "<label class=\"form-check-label\" for=\"addCGroup".$count."\">";
                                             echo ucfirst($data);
                                             echo "</label> </div>";
                                             $count++;
                                         }
                                     ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="categoryGroup" id="cGroup<?php echo $count;?>" value="new group">
-                                        <label class="form-check-label" for="cGroup<?php echo $count;?>">
+                                        <input class="form-check-input" type="radio" name="categoryGroup" id="addCGroup<?php echo $count;?>" value="new group">
+                                        <label class="form-check-label" for="addCGroup<?php echo $count;?>">
                                             New group
                                         </label>
                                         <input type="text" class="form-control" name="newcGroup" maxlength="20" placeholder="New category group's name (limit 20 characters)">
@@ -107,7 +104,7 @@
                                         echo "</div>";
                                         // categoryName
                                         echo "<div class=\"col-8\">";
-                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".$row['category_name']."\" placeholder=\"Category name\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".$row['category_name']."\" placeholder=\"Category name\" required>";
                                         echo "</div>";
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
@@ -132,10 +129,10 @@
                                         $count = 0;
                                         foreach($cGroupArray as $data) {
                                             echo "<div class=\"form-check\">";
-                                            if($data == "Others") {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup".$row['category_id']."\" id=\"cGroup".$count."\" value=\"".$data."\" checked>";
+                                            if($data == $row['category_group']) {
+                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cGroup".$count."\" value=\"".$data."\" checked>";
                                             } else {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup".$row['category_id']."\" id=\"cGroup".$count."\" value=\"".$data."\">";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cGroup".$count."\" value=\"".$data."\">";
                                             }
                                             echo "<label class=\"form-check-label\" for=\"cGroup".$count."\">";
                                             echo ucfirst($data);
@@ -143,7 +140,7 @@
                                             $count++;
                                         }
                                         echo "<div class=\"form-check\">";
-                                        echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup".$row['category_id']."\" id=\"cGroup".$count."\" value=\"new group\">";
+                                        echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cGroup".$count."\" value=\"new group\">";
                                         echo "<label class=\"form-check-label\" for=\"cGroup".$count."\">";
                                         echo "New group";
                                         echo "</label>";
