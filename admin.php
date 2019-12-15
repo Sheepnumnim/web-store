@@ -1,40 +1,29 @@
 <?php include('dbconnect.php');?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/mystyle.css" type="text/css">
+    <link rel="stylesheet" href="//s.w.org/wp-includes/css/dashicons.css?20150710" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        function validate() {
-            var ename = document.getElementById( "categoryName" );
-            if( ename.value == "" ) {
-                ename.setAttribute("class", "form-control is-invalid");
-                return false;
-            } else {
-                return true;
-            }
-            var egroup = document.getElementById( "categoryGroup" );
-            if( egroup.value == "" ) {
-                egroup.setAttribute("class", "form-control is-invalid");
-                return false;
-            } else {
-                return true;
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <title>Document</title>
 </head>
-
 <body class="container bg-dark">
     <h1 class="text-light" id="top">Icon-Perfect Admin</h1>
     <p>&nbsp;</p>
     <hr style="border:2px solid white">
     <p>&nbsp;</p>
-
+    
     <div class="accordion" id="accordionExample">
 
+        <!-- category -->
         <div class="card bg-dark">
             <div class="card-header" id="headingOne">
             <h2 class="mb-0">
@@ -46,35 +35,15 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-                <table class="table table-striped table-dark">
-                    <caption>Categories</caption>
+                <table class="table table-striped table-dark table-responsive-xl">
+                <tbody>
                     <tr>
-                        <th scope="row">All categories:</th>
-                        <td>
-                            <?php
-                                $sql = "SELECT * FROM categories";
-                                if ($res = mysqli_query($conn, $sql)) {
-                                    while ($row = mysqli_fetch_array($res)) { 
-                                        echo "id: " . $row['category_id'] . " || "; 
-                                        echo "name: " . $row['category_name'] . " || "; 
-                                        echo "img file name: " . $row['category_img'] . " || ";  
-                                        echo "position: " . $row['category_pos'] . " || ";
-                                        echo "group: " . $row['category_group'] . "</br>";
-                                    }
-                                    mysqli_free_result($res); 
-                                } else {
-                                    echo "Cannot query.</br>";
-                                }
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="col-3" scope="row">Add category:</th>
-                        <td class="col-9">
+                        <th style="width: 20%" scope="row">Add category:</th>
+                        <td style="width: 80%">
                             <form action="dbAddCategory.php" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                                 <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
-                                <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter category name..."></br>
-                                <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" placeholder="Enter group of category..."></br>
+                                <input type="text" class="form-control" name="categoryName" id="categoryName" maxlength="50" placeholder="Enter category name (limit 50 characters)"></br>
+                                <input type="text" class="form-control" name="categoryGroup" id="categoryGroup" maxlength="20" placeholder="Enter group of category (limit 20 characters)"></br>
                                 <div class="invalid-feedback">
                                     Please enter category name and group.
                                 </div>
@@ -83,85 +52,99 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Remove category:</th>
+                        <th scope="row">All categories:</th>
                         <td>
-                            <form action="dbRemoveCategory.php" method="post" enctype="multipart/form-data">
                             <?php
+                                $ccount = 0;
+                                $path = "uploads/categories/";
                                 $sql = "SELECT * FROM categories";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
-                                        echo "<div class=\"custom-control custom-checkbox\">";
-                                        echo "<input class=\"custom-control-input\" type=\"checkbox\" id=\""
-                                            .$row['category_id']."\" value=\""
-                                            .$row['category_id']."\" aria-label=\"...\" name=\"ckeck_cat_id[]\">";
-                                        echo "<label class=\"custom-control-label\" for=\"".$row['category_id']."\">"
-                                            ."id: " . $row['category_id'] . " || "
-                                            ."name: " . ucfirst($row['category_name']) . " || "
-                                            ."img file name: " . $row['category_img'] . " || "
-                                            ."position: " . $row['category_pos'] . "</br>"
-                                            ."</label>";
+                                        // form
+                                        echo "<div class=\"clear\"></div>";
+                                        echo "<form action=\"#\" method=\"post\" id=\"cForm".$row['category_id']."\" enctype=\"multipart/form-data\">";
+                                        echo "<div class=\"form-row\">";
+                                        // hiddenid + categoryPos
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_cid".$ccount."\" name=\"hiddenid\" value=\"".$row['category_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cPos".$row['category_id']."\" name=\"categoryPos\" disabled value=\"".$row['category_pos']."\">";
+                                        // categoryImg
+                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"cfile".$row['category_id']."\" name=\"categoryImg\">";
                                         echo "</div>";
+                                        // categoryGroup
+                                        echo "<div class=\"col-3\">";
+                                        echo "<input type=\"text\" class=\"form-control\"id=\"cGroup".$row['category_id']."\" name=\"categoryGroup\"  maxlength=\"20\" disabled value=\"".$row['category_group']."\">";
+                                        echo "</div>";
+                                        // categoryName
+                                        echo "<div class=\"col-5\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".$row['category_name']."\">";
+                                        echo "</div>";
+                                        // hiddenimg
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_cimg".$row['category_id']."\" name=\"hiddenimg\" value=\"".$path.$row['category_img']."\">";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['category_img']."\" class=\"zoomable\" id=\"cimage".$row['category_id']."\">image</a>";
+                                        // btn save + cancel link
+                                        echo "<input type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"csave".$row['category_id']."\" name=\"submit\" value=\"save\">";
+                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"ccancel".$row['category_id']."\">cancel</a>";
+                                        echo "</div>";
+                                        // btn edit
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"cedit".$row['category_id']."\" value=\"edit\">";
+                                        echo "</div>";
+                                        // btn delete
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"submit\" class=\"btn btn-outline-light\" id=\"cdelete".$row['category_id']."\" name=\"submit\" value=\"delete\">";
+                                        echo "</div> </div> </form>";
+                                        echo "<hr>";
+                                        $ccount++;
                                     }
+                                    echo "<input type=\"hidden\" id=\"hidden_ccount\" name=\"hiddencount\" value=\"".$ccount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";
                                 }
                             ?>
-                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="submit">
-                            </form>
+                            
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">Set categories arranging: </br>(show in products page)</th>
-                        <td>
-                            developing...
-                        </td>
-                    </tr>
+                </tbody>
                 </table>
             </div>
             </div>
         </div>
 
+        <!-- product -->
         <div class="card bg-dark">
             <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
-                <button class="btn btn-link collapsed text-white" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="btn btn-link collapsed text-white" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="fault" aria-controls="collapseTwo">
                 Product
                 </button>
             </h2>
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-                <table class="table table-striped table-dark">
-                    <caption>Products</caption>
+                <table class="table table-striped table-dark table-responsive-xl">
+                <tbody>
+                    <?php
+                        $sql = "SELECT category_name FROM categories";
+                        $cNameArray = array();
+                        if ($res = mysqli_query($conn, $sql)) {
+                            while ($row = mysqli_fetch_array($res)) {
+                                $cNameArray[] = $row['category_name'];
+                            }
+                            mysqli_free_result($res);
+                        } else {
+                            echo "Cannot query.</br>";
+                        }
+                    ?>
                     <tr>
-                        <th scope="row">All products:</th>
-                        <td>
-                            <?php
-                                $sql = "SELECT * FROM products";
-                                if ($res = mysqli_query($conn, $sql)) {
-                                    while ($row = mysqli_fetch_array($res)) { 
-                                        echo "id: " . $row['product_id'] . " || "; 
-                                        echo "name: " . $row['product_name']." || "; 
-                                        echo "img file name: " . $row['product_img']." || ";  
-                                        echo "description: " . $row['product_description'] . " || ";
-                                        echo "category: " . $row['category_id'] . "</br>"; 
-                                    }
-                                    mysqli_free_result($res); 
-                                } else {
-                                    echo "Cannot query.</br>";
-                                }
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th class="col-3" scope="row">Add product:</th>
-                        <td class="col-9">
+                        <th style="width: 20%" scope="row">Add product:</th>
+                        <td style="width: 80%">
                             <form action="dbAddProduct.php" method="post" enctype="multipart/form-data">
                                 <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
-                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name..."></br>
-                                <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description...(optional)"></textarea>
+                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name (limit 50 character)"></br>
+                                <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description  (limit 100 character) (optional)"></textarea>
                                 <label class="col-form-label">Add to category</label>
                                 <?php
                                     $sql = "SELECT * FROM categories";
@@ -184,47 +167,77 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Remove product:</th>
+                        <th scope="row">All products:</th>
                         <td>
-                            <form action="dbRemoveCategory.php" method="post" enctype="multipart/form-data">
                             <?php
-                                $sql = "SELECT * FROM products";
+                                $pcount = 0;
+                                $path = "uploads/products/";
+                                $sql = "SELECT product_id, product_name, product_img, product_fav, category_name FROM products, categories AS c WHERE products.category_id = c.category_id";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
-                                        echo "<div class=\"custom-control custom-checkbox\">";
-                                        echo "<input class=\"custom-control-input\" type=\"checkbox\" id=\""
-                                            .$row['product_id']."\" value=\""
-                                            .$row['product_id']."\" aria-label=\"...\" name=\"ckeck_cat_id[]\">";
-                                        echo "<label class=\"custom-control-label\" for=\"".$row['product_id']."\">"
-                                            ."id: " . $row['category_id'] . " || "
-                                            ."name: " . ucfirst($row['product_name']) . " || "
-                                            ."img file name: " . $row['product_img'] . " || "
-                                            ."description: " . $row['product_description'] . " || "
-                                            ."category: " . $row['category_id'] . "</br>"
-                                            ."</label>";
+                                        // form
+                                        echo "<div class=\"clear\"></div>";
+                                        echo "<form action=\"#\" method=\"post\" id=\"pForm".$row['product_id']."\" enctype=\"multipart/form-data\">";
+                                        echo "<div class=\"form-row\">";
+                                        // hiddenid + productName
+                                        echo "<div class=\"col-6\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_pid".$pcount."\" name=\"hiddenid\" value=\"".$row['product_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"pName".$row['product_id']."\" name=\"productName\" disabled value=\"".$row['product_name']."\">";
+                                        // productImg
+                                        echo "<input style=\"padding-top: 5px\" type=\"file\" class=\"form-control-file d-none\" id=\"pfile".$row['product_id']."\" name=\"productImg\">";
                                         echo "</div>";
+                                        // categoryName
+                                        echo "<div class=\"col-2\">";
+                                        echo "<select id=\"pcName".$row['product_id']."\" name=\"categoryName\" disabled=\"disabled\">";
+                                        foreach ($cNameArray as $option) {
+                                            if($option == $row['category_name']) {
+                                                echo "<option value=\"".$option."\" selected>".ucfirst($option)."</option>";
+                                            } else {
+                                                echo "<option value=\"".$option."\">".ucfirst($option)."</option>";
+                                            }
+                                        }
+                                        echo "</select>";
+                                        echo "</div>";
+                                        // hiddenfav
+                                        echo "<div class=\"col-1\">";
+                                        echo "<span href=\"\" class=\"myfav dashicons dashicons-heart\" id=\"pFav".$row['product_id']."\"></span>";
+                                        echo "<input type=\"hidden\" id=\"hiddenfav".$row['product_id']."\" name=\"hiddenfav\" value=\"".$row['product_fav']."\">";
+                                        echo "</div>";
+                                        // hiddenimg
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"hidden\" id=\"hidden_pimg".$row['product_id']."\" name=\"hiddenimg\" value=\"".$path.$row['product_img']."\">";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['product_img']."\" class=\"zoomable\" id=\"pimage".$row['product_id']."\">image</a>";
+                                        // btn save + cancel link
+                                        echo "<input type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"psave".$row['product_id']."\" name=\"submit\" value=\"save\">";
+                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"pcancel".$row['product_id']."\">cancel</a>";
+                                        echo "</div>";
+                                        // btn edit
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"pedit".$row['product_id']."\" value=\"edit\">";
+                                        echo "</div>";
+                                        // btn delete
+                                        echo "<div class=\"col-1\">";
+                                        echo "<input type=\"submit\" class=\"btn btn-outline-light\" id=\"pdelete".$row['product_id']."\" name=\"submit\" value=\"delete\">";
+                                        echo "</div> </div> </form>";
+                                        echo "<hr>";
+                                        $pcount++;
                                     }
+                                    echo "<input type=\"hidden\" id=\"hidden_pcount\" name=\"hiddenfav\" value=\"".$pcount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";
                                 }
                             ?>
-                                </br><input type="submit" class="btn btn-outline-light" value="Remove category" name="submit">
-                            </form>
+                            
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">Set highlight products:</br>(show in home page)</th>
-                        <td>
-                            developing...
-                        </td>
-                    </tr>
+                </tbody>
                 </table>
-
             </div>
             </div>
         </div>
 
+        <!-- config -->
         <div class="card bg-dark">
             <div class="card-header" id="headingThree">
             <h2 class="mb-0">
@@ -235,11 +248,11 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
-                <table class="table table-striped table-dark">
-                    <caption>Config & database information</caption>
+                <table class="table table-striped table-dark table-responsive-xl">
+                <tbody>
                     <tr>
-                        <th class="col-3" scope="row">Real path:</th>
-                        <td class="col-9">
+                        <th style="width: 20%" scope="row">Real path:</th>
+                        <td style="width: 80%">
                             <?php
                                 $realpath = realpath(__FILE__);
                                 echo $realpath;
@@ -265,6 +278,7 @@
                             ?>
                         </td>
                     </tr>
+                </tbody>
                 </table>
 
             </div>
@@ -277,5 +291,8 @@
     <div style="bottom:65px; right:20px; position:fixed;"><a href="#top" target="_top"><img src="images/prettyPhoto/arrow-up-icon.png" alt="arrow-up-icon" width="40" height="40"/></a></div>
     <div style="bottom:20px; right:20px; position:fixed;"><a href="#bottom" target="_top"><img src="images/prettyPhoto/arrow-down-icon.png" alt="arrow-down-icon" width="40" height="40"/></a></div>
     <div id="bottom"></div>
+
+    <script src="js/myscript.js"></script>
+    <script src="http://static.tumblr.com/xz44nnc/o5lkyivqw/jquery-1.3.2.min.js"></script>
 </body>
 </html>
