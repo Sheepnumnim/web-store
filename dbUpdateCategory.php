@@ -5,8 +5,10 @@ if(isset($_POST["submit"])) {
     print_r($_POST);
     echo "</br>";
     print_r($_FILES);
-    echo "</br>";
+    echo "</br></br>";
 
+    $pos = $_POST['categoryPos'];
+    $id = $_POST['hiddenid'];
     $sql = "UPDATE categories SET ";
 
     $file_name = basename($_FILES["categoryImg"]["name"]);
@@ -42,13 +44,75 @@ if(isset($_POST["submit"])) {
     } else {
         $sql = $sql." category_group='$_POST[categoryGroup]', ";
     }
+
+    $sql_select = "select category_id, category_pos from categories";
+    $data = [];
+    $cpos = 0;
+    if($res = mysqli_query($conn, $sql_select)) {
+        echo "<br>";
+        echo "query success.<br>";
+        while($row = mysqli_fetch_array($res)) {
+            $data[] = $row;
+            if($row['category_id'] == $id) {
+                $cpos = $row['category_pos'];
+            }
+        }
+        print_r($data);
+        echo "<br>";
+        // echo $data[0]['category_id']." || ".$data[0]['category_pos'];
+        // echo "<br>";
+    } else {
+        echo "query fail.";
+    }
+
+    $sql = $sql." category_pos='$_POST[categoryPos]', ";
     $sql = $sql." category_name='$_POST[categoryName]' ";
     $sql = $sql." WHERE category_id=$_POST[hiddenid]";
     echo "</br>".$sql;
-    if($res = mysqli_query($conn, $sql)) {
+    if(mysqli_query($conn, $sql)) {
         echo "query success.";
     } else {
         echo "query fail.";
+    }
+
+    $sql_update = [];
+    $count = 0;
+    if($pos > $cpos) {
+        foreach($data as $dt) {
+            $value = $dt['category_pos'];
+            $min = $cpos+1;
+            $max = $pos;
+            if(($min <= $value) && ($value <= $max)) {
+                $newpos = $value-1;
+                $sql_update[] = "update categories set category_pos=".$newpos." where category_id=".$dt['category_id'];
+            }
+            $count++;
+        }
+    }
+    else if($pos < $cpos) {
+        foreach($data as $dt) {
+            $value = $dt['category_pos'];
+            $min = $pos;
+            $max = $cpos-1;
+            if(($min <= $value) && ($value <= $max)) {
+                $newpos = $value+1;
+                $sql_update[] = "update categories set category_pos=".$newpos." where category_id=".$dt['category_id'];
+            }
+            $count++;
+        }
+    }
+    else {
+        echo "<br>nothing change";
+    }
+    echo "<br>";
+    print_r($sql_update);
+    // echo sizeof($sql_update);
+    foreach($sql_update as $s) {
+        if(mysqli_query($conn, $s)) {
+            echo "query success.";
+        } else {
+            echo "query fail.";
+        }
     }
 }
 

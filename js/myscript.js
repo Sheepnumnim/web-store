@@ -7,9 +7,9 @@ $(document).ready(function(){
             $("#cedit" + obj_id).addClass("d-none");
             $("#csave" + obj_id).removeClass("d-none");
             $("#ccancel" + obj_id).removeClass("d-none");
-            $("#cPos" + obj_id).removeAttr("disabled");
-            $("#cGroup" + obj_id).removeAttr("disabled");
-            $("#cName" + obj_id).removeAttr("disabled");
+            $("#cpos" + obj_id).removeAttr("disabled");
+            $("#cgroup" + obj_id).removeAttr("disabled");
+            $("#cname" + obj_id).removeAttr("disabled");
             $("#cimage" + obj_id).addClass("d-none");
             // $("#cimage" + obj_id).text("change image");
             $("#cimage" + obj_id).attr("src", "");
@@ -23,9 +23,9 @@ $(document).ready(function(){
             $("#cedit" + obj_id).removeClass("d-none");
             $("#csave" + obj_id).addClass("d-none");
             $("#ccancel" + obj_id).addClass("d-none");
-            $("#cPos" + obj_id).attr("disabled", "true");
-            $("#cGroup" + obj_id).attr("disabled", "true");
-            $("#cName" + obj_id).attr("disabled", "true");
+            $("#cpos" + obj_id).attr("disabled", "true");
+            $("#cgroup" + obj_id).attr("disabled", "true");
+            $("#cname" + obj_id).attr("disabled", "true");
             $("#cimage" + obj_id).removeClass("d-none");
             // $("#cimage" + obj_id).text("image");
             $("#cimage" + obj_id).attr("src", $("#hidden_cimg" + obj_id).val());
@@ -33,17 +33,18 @@ $(document).ready(function(){
             $("#cfile" + obj_id).addClass("d-none");
             console.log("clicked: " + obj_id);
         });
-        
-        $("#csave" + obj_id).click(function(){
-            $("#cForm" + obj_id).attr("action", "dbUpdateCategory.php");
-            $("#cForm" + obj_id).submit();
-        });
 
-        $("#cdelete" + obj_id).click(function(){
-            $("#cForm" + obj_id).attr("action", "dbDeleteCategory.php");
-            $("#cForm" + obj_id).submit();
-        }); 
+        $("#csave" + obj_id).click(function(){
+            $pos = $("#cpos" + obj_id).val();
+            $("#hidden_cpos").val($pos);
+            $("#hidden_csubmit").val("save");
+        });
         
+        $("#cdelete" + obj_id).click(function(){
+            $("#cpos" + obj_id).removeAttr("disabled");
+            $("#hidden_cid").val(obj_id);
+            $("#hidden_csubmit").val("delete");
+        });
     }
 
     var $pcount = $("#hidden_pcount").val();
@@ -57,7 +58,6 @@ $(document).ready(function(){
             $("#pName" + obj_id).removeAttr("disabled");
             $("#pcName" + obj_id).removeAttr("disabled");
             $("#pimage" + obj_id).addClass("d-none");
-            // $("#pimage" + obj_id).text("change image");
             $("#pimage" + obj_id).attr("src", "");
             $("#pfile" + obj_id).removeClass("d-none");
             $("#pFav" + obj_id).addClass("active");
@@ -80,29 +80,18 @@ $(document).ready(function(){
             $("#pName" + obj_id).attr("disabled", "true");
             $("#pcName" + obj_id).attr("disabled", "disabled");
             $("#pimage" + obj_id).removeClass("d-none");
-            // $("#pimage" + obj_id).text("image");
             $("#pimage" + obj_id).attr("src", $("#hidden_pimg" + obj_id).val());
             $("#pfile" + obj_id).addClass("d-none");
             $("#pFav" + obj_id).removeClass("active");
             console.log("clicked: " + obj_id);
         });
 
-        $("#psave" + obj_id).click(function(){
-            $("#pForm" + obj_id).attr("action", "dbUpdateProduct.php");
-            $("#pForm" + obj_id).submit();
-        });
-
-        $("#pdelete" + obj_id).click(function(){
-            $("#pForm" + obj_id).attr("action", "dbDeleteProduct.php");
-            $("#pForm" + obj_id).submit();
-        }); 
-
         if($("#hiddenfav" + obj_id).val() == 1) {
             $("#pFav" + obj_id).addClass("selected");
         }
     }
 
-    $('a.zoomable').live('click', function () {
+    $('a.zoomable').click(function () {
         var img = $(this);
         if(img.attr('src') != "") {
             var bigImg = $('<img />').css({
@@ -135,5 +124,68 @@ $(document).ready(function(){
             }, 300);
         }
     });
-
 });
+
+// var Data;
+// function getData(id) {
+//     return $.ajax({
+//         url: 'checkCategoryInProduct.php',
+//         method: 'POST',
+//         data: {
+//             id: id
+//         },
+//         success: function(response) {
+//             Data = response;
+//         }
+//     });
+// }
+// https://stackoverflow.com/questions/44644114/whats-a-non-deprecated-way-of-doing-a-synchronous-ajax-call-using-jquery
+
+function cvalidate() {
+    var ename = document.getElementById( "hidden_csubmit" );
+    if(ename.value == "save") {
+        var pos = $("#hidden_cpos").val();
+        var confirm_text = $.ajax({
+            type: 'POST',
+            async: false,
+            data: {
+                pos: pos
+            },
+            url: "checkUpdate.php"
+        }).responseText;
+
+        // return confirm(confirm_text);
+        if(confirm_text == "Save?") {
+            return confirm(confirm_text);
+        } 
+        else {
+            alert(confirm_text);
+            return false;
+        }
+    }
+    if(ename.value == "delete") {
+        // var confirm_text = "delete?";
+        var id = $("#hidden_cid").val();
+
+        var confirm_text = $.ajax({
+            type: 'POST',
+            async: false,
+            data: {
+                id: id
+            },
+            url: "checkDelete.php"
+        }).responseText;
+        
+        // getData(id).done(function(response){
+        //     confirm_text = response;
+        //     //access response data here
+        // });
+
+        // alert(id);
+        return confirm(confirm_text);
+        // return false;
+    }
+    else {
+        return confirm('error occured. : ' + ename.value);
+    }
+}
