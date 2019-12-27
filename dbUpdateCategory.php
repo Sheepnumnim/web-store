@@ -39,10 +39,12 @@ if(isset($_POST["submit"])) {
         }
     }
     
-    if($_POST['categoryGroup'] == "new group") {
-        $sql = $sql." category_group='$_POST[newcGroup]', ";
+    $categoryVar = 'categoryGroup_show'.$_POST['hiddenid'];
+    $categoryInputVar = 'categoryGroupInput'.$_POST['hiddenid'];
+    if($_POST[$categoryVar] == "new group") {
+        $sql = $sql." category_group='$_POST[$categoryInputVar]', ";
     } else {
-        $sql = $sql." category_group='$_POST[categoryGroup]', ";
+        $sql = $sql." category_group='$_POST[$categoryVar]', ";
     }
 
     $sql_select = "select category_id, category_pos from categories";
@@ -59,8 +61,6 @@ if(isset($_POST["submit"])) {
         }
         print_r($data);
         echo "<br>";
-        // echo $data[0]['category_id']." || ".$data[0]['category_pos'];
-        // echo "<br>";
     } else {
         echo "query fail.";
     }

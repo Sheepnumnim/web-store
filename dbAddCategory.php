@@ -66,10 +66,10 @@ if(isset($_POST["submit"])) {
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
-        if ($_POST['categoryGroup'] == "new group") {
-            $sql = $sql." category_group = '$_POST[newcGroup]', ";
+        if ($_POST['categoryGroup_add'] == "new group") {
+            $sql = $sql." category_group = '$_POST[categoryGroupInput_add]', ";
         } else {
-            $sql = $sql." category_group = '$_POST[categoryGroup]', ";
+            $sql = $sql." category_group = '$_POST[categoryGroup_add]', ";
         }
         $pos = $amount+1;
         $sql = $sql." category_pos = '$pos', ";

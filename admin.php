@@ -27,7 +27,7 @@
                 include('dbDeleteProduct.php');
             break;
         }
-        header("Location: ".$_SERVER['PHP_SELF']);
+        // header("Location: ".$_SERVER['PHP_SELF']);
     }
 ?>
 <!DOCTYPE html>
@@ -62,7 +62,7 @@
                 <table class="table table-striped table-dark table-responsive-xl">
                 <tbody>
                     <?php
-                        $sql = "SELECT DISTINCT category_group FROM categories";
+                        $sql = "SELECT DISTINCT category_group FROM categories ORDER BY category_id DESC";
                         $cGroupArray = array();
                         if ($res = mysqli_query($conn, $sql)) {
                             while ($row = mysqli_fetch_array($res)) {
@@ -77,8 +77,8 @@
                         <th style="width: 20%" scope="row">Add category:</th>
                         <td style="width: 80%">
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
-                                <input type="file" class="form-control-file" name="categoryImg" id="categoryImg"></br>
-                                <input type="text" class="form-control" name="categoryName" id="categoryName" maxlength="50" placeholder="Enter category name (limit 50 characters)" required></br>
+                                <input type="file" class="form-control-file" id="caFile" name="categoryImg"></br>
+                                <input type="text" class="form-control" id="caName" name="categoryName" maxlength="50" placeholder="Enter category name (limit 50 characters)" required></br>
                                 <legend class="col-form-label">Category group</legend>
                                 <div>
                                     <?php
@@ -86,25 +86,25 @@
                                         foreach($cGroupArray as $data) {
                                             echo "<div class=\"form-check\">";
                                             if($data == "Others") {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cAddGroup".$count."\" value=\"".$data."\" checked>";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" id=\"caGroup".$count."\" name=\"categoryGroup_add\" value=\"".$data."\" checked>";
                                             } else {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cAddGroup".$count."\" value=\"".$data."\">";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" id=\"caGroup".$count."\" name=\"categoryGroup_add\" value=\"".$data."\">";
                                             }
-                                            echo "<label class=\"form-check-label\" for=\"cAddGroup".$count."\">";
+                                            echo "<label class=\"form-check-label\" for=\"caGroup".$count."\">";
                                             echo ucfirst($data);
                                             echo "</label> </div>";
                                             $count++;
                                         }
                                     ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="categoryGroup" id="cAddGroup<?php echo $count;?>" value="new group">
-                                        <label class="form-check-label" for="cAddGroup<?php echo $count;?>">
+                                        <input class="form-check-input" type="radio" id="caGroup<?php echo $count;?>" name="categoryGroup_add" value="new group">
+                                        <label class="form-check-label" for="caGroup<?php echo $count;?>">
                                             New group
                                         </label>
-                                        <input type="text" class="form-control" name="newcGroup" maxlength="20" placeholder="New category group's name (limit 20 characters)">
+                                        <input type="text" class="form-control" id="caGroupInput" name="categoryGroupInput_add" maxlength="20" placeholder="New category group's name (limit 20 characters)">
                                     </div>
                                 </div>
-                                </br><button type="submit" class="btn btn-outline-light" value="cadd" name="submit">Add category</button>
+                                </br><button type="submit" class="btn btn-outline-light" id="cAdd" name="submit" value="cadd">Add category</button>
                             </form>
                         </td>
                     </tr>
@@ -114,7 +114,7 @@
                             <?php
                                 $ccount = 0;
                                 $path = "uploads/categories/";
-                                $sql = "SELECT * FROM categories";
+                                $sql = "SELECT * FROM categories ORDER BY category_id DESC";
                                 if ($res = mysqli_query($conn, $sql)) {
                                     while ($row = mysqli_fetch_array($res)) { 
                                         // form
@@ -123,66 +123,64 @@
                                         // hiddenid + categoryPos
                                         echo "<div class=\"form-row\">";
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_cid".$ccount."\" name=\"hiddenid\" value=\"".$row['category_id']."\">";
-                                        echo "<input type=\"number\" class=\"form-control\" id=\"cpos".$row['category_id']."\" name=\"categoryPos\" disabled value=\"".$row['category_pos']."\" placeholder=\"Position\">";
+                                        echo "<input type=\"hidden\" id=\"csId_hidden".$ccount."\" name=\"hiddenid\" value=\"".$row['category_id']."\">";
+                                        echo "<input type=\"number\" class=\"form-control\" id=\"cPos".$row['category_id']."\" name=\"categoryPos\" disabled value=\"".$row['category_pos']."\" placeholder=\"Position\">";
                                         echo "</div>";
                                         // categoryName
                                         echo "<div class=\"col-8\">";
-                                        echo "<input type=\"text\" class=\"form-control\" id=\"cname".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".ucfirst($row['category_name'])."\" placeholder=\"Category name\" required>";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".ucfirst($row['category_name'])."\" placeholder=\"Category name\" required>";
                                         echo "</div>";
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_cimg".$row['category_id']."\" name=\"hiddenimg\" value=\"".$path.$row['category_img']."\">";
-                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['category_img']."\" class=\"zoomable\" id=\"cimage".$row['category_id']."\">image</a>";
+                                        echo "<input type=\"hidden\" id=\"csImage_hidden".$row['category_id']."\" name=\"hiddenimg\" value=\"".$path.$row['category_img']."\">";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['category_img']."\" class=\"zoomable\" id=\"csImage".$row['category_id']."\">image</a>";
                                         echo "</div>";
                                         // btn edit
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"cedit".$row['category_id']."\" value=\"edit\">";
-                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"ccancel".$row['category_id']."\">cancel</a>";
+                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"cEdit".$row['category_id']."\" value=\"edit\">";
+                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"cCancel".$row['category_id']."\">cancel</a>";
                                         echo "</div>";
                                         // btn delete
                                         echo "<div class=\"col-1\">";
-                                        echo "<button type=\"submit\" class=\"btn btn-outline-light\" id=\"cdelete".$row['category_id']."\" name=\"submit\" value=\"cdelete\">delete</button>";
+                                        echo "<button type=\"submit\" class=\"btn btn-outline-light\" id=\"cDelete".$row['category_id']."\" name=\"submit\" value=\"cdelete\">delete</button>";
                                         echo "</div>"; 
                                         echo "</div>";
-                                        // categoryGroup + newcGroup
+                                        // categoryGroup + categoryGroupInput
                                         echo "<div class=\"form-row form-group\">";
-                                        echo "<div class=\"col d-none\" id=\"hiddengroup".$row['category_id']."\">";
+                                        echo "<div class=\"col d-none\" id=\"csGroup_div".$row['category_id']."\">";
                                         echo "<legend class=\"col-form-label\">Category group</legend>";
                                         $count = 0;
                                         foreach($cGroupArray as $data) {
                                             echo "<div class=\"form-check\">";
                                             if($data == $row['category_group']) {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cgroup".$row['category_id'].$count."\" value=\"".$data."\" checked>";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" id=\"csGroup".$row['category_id'].$count."\" name=\"categoryGroup_show".$row['category_id']."\" value=\"".$data."\" checked>";
                                             } else {
-                                                echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cgroup".$row['category_id'].$count."\" value=\"".$data."\">";
+                                                echo "<input class=\"form-check-input\" type=\"radio\" id=\"csGroup".$row['category_id'].$count."\" name=\"categoryGroup_show".$row['category_id']."\" value=\"".$data."\">";
                                             }
-                                            echo "<label class=\"form-check-label\" for=\"cgroup".$row['category_id'].$count."\">";
+                                            echo "<label class=\"form-check-label\" for=\"csGroup".$row['category_id'].$count."\">";
                                             echo ucfirst($data);
                                             echo "</label> </div>";
                                             $count++;
                                         }
                                         echo "<div class=\"form-check\">";
-                                        echo "<input class=\"form-check-input\" type=\"radio\" name=\"categoryGroup\" id=\"cgroup".$row['category_id'].$count."\" value=\"new group\">";
-                                        echo "<label class=\"form-check-label\" for=\"cgroup".$row['category_id'].$count."\">";
+                                        echo "<input class=\"form-check-input\" type=\"radio\" id=\"csGroup".$row['category_id'].$count."\" name=\"categoryGroup_show".$row['category_id']."\" value=\"new group\">";
+                                        echo "<label class=\"form-check-label\" for=\"csGroup".$row['category_id'].$count."\">";
                                         echo "New group";
                                         echo "</label>";
-                                        echo "<input type=\"text\" class=\"form-control\" name=\"newcGroup\" maxlength=\"20\" placeholder=\"New category group's name (limit 20 characters)\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"csGroupInput".$row['category_id']."\" name=\"categoryGroupInput".$row['category_id']."\" maxlength=\"20\" placeholder=\"New category group's name (limit 20 characters)\">";
                                         echo "</div>";
                                         echo "</div>";
                                         echo "</div>";
                                         // categoryImg
                                         echo "<div class=\"form-row form-inline\">";
                                         echo "<div class=\"col\">";
-                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"cfile".$row['category_id']."\" name=\"categoryImg\">";
+                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"csFile".$row['category_id']."\" name=\"categoryImg\">";
                                         echo "</div>";
                                         // btn save
                                         echo "<div class=\"col-1\">";
-                                        echo "<button type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"csave".$row['category_id']."\" name=\"submit\" value=\"csave\">save</button>";
+                                        echo "<button type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"cSave".$row['category_id']."\" name=\"submit\" value=\"csave\">save</button>";
                                         echo "</div>";
                                         echo "</div>";
-                                        // other hidden: hiddencascade
-                                        // echo "<input type=\"hidden\" id=\"hidden_cascade".$ccount."\" name=\"hiddencascade\" value=\"\">";
                                         echo "</form>";
                                         echo "<hr>";
                                         $ccount++;

@@ -1,49 +1,62 @@
 $(document).ready(function(){
     var $ccount = $("#hidden_ccount").val();
     for(var i=0; i<parseInt($ccount, 10); i++) {
-        var obj_name = "#hidden_cid" + i;
+        var obj_name = "#csId_hidden" + i;
         let obj_id = $(obj_name).val();
-        $("#cedit" + obj_id).click(function(){
-            $("#cedit" + obj_id).addClass("d-none");
-            $("#csave" + obj_id).removeClass("d-none");
-            $("#ccancel" + obj_id).removeClass("d-none");
-            $("#cpos" + obj_id).removeAttr("disabled");
-            $("#cgroup" + obj_id).removeAttr("disabled");
-            $("#cname" + obj_id).removeAttr("disabled");
-            $("#cimage" + obj_id).addClass("d-none");
-            // $("#cimage" + obj_id).text("change image");
-            $("#cimage" + obj_id).attr("src", "");
-            $("#cimage" + obj_id).attr("src", "");
-            $("#hiddengroup" + obj_id).removeClass("d-none");
-            $("#cfile" + obj_id).removeClass("d-none");
+        $("#cEdit" + obj_id).click(function(){
+            $("#cEdit" + obj_id).addClass("d-none");
+            $("#cSave" + obj_id).removeClass("d-none");
+            $("#cCancel" + obj_id).removeClass("d-none");
+            $("#cPos" + obj_id).removeAttr("disabled");
+            $("#csGroup" + obj_id).removeAttr("disabled");
+            $("#cName" + obj_id).removeAttr("disabled");
+            $("#csImage" + obj_id).addClass("d-none");
+            // $("#csImage" + obj_id).text("change image");
+            $("#csImage" + obj_id).attr("src", "");
+            $("#csImage" + obj_id).attr("src", "");
+            $("#csGroup_div" + obj_id).removeClass("d-none");
+            $("#csFile" + obj_id).removeClass("d-none");
             console.log("clicked: " + obj_id);
         });
 
-        $("#ccancel" + obj_id).click(function(){
-            $("#cedit" + obj_id).removeClass("d-none");
-            $("#csave" + obj_id).addClass("d-none");
-            $("#ccancel" + obj_id).addClass("d-none");
-            $("#cpos" + obj_id).attr("disabled", "true");
-            $("#cgroup" + obj_id).attr("disabled", "true");
-            $("#cname" + obj_id).attr("disabled", "true");
-            $("#cimage" + obj_id).removeClass("d-none");
-            // $("#cimage" + obj_id).text("image");
-            $("#cimage" + obj_id).attr("src", $("#hidden_cimg" + obj_id).val());
-            $("#hiddengroup" + obj_id).addClass("d-none");
-            $("#cfile" + obj_id).addClass("d-none");
+        $("#cCancel" + obj_id).click(function(){
+            $("#cEdit" + obj_id).removeClass("d-none");
+            $("#cSave" + obj_id).addClass("d-none");
+            $("#cCancel" + obj_id).addClass("d-none");
+            $("#cPos" + obj_id).attr("disabled", "true");
+            $("#csGroup" + obj_id).attr("disabled", "true");
+            $("#cName" + obj_id).attr("disabled", "true");
+            $("#csImage" + obj_id).removeClass("d-none");
+            // $("#csImage" + obj_id).text("image");
+            $("#csImage" + obj_id).attr("src", $("#csImage_hidden" + obj_id).val());
+            $("#csGroup_div" + obj_id).addClass("d-none");
+            $("#csFile" + obj_id).addClass("d-none");
             console.log("clicked: " + obj_id);
         });
 
-        $("#csave" + obj_id).click(function(){
-            $pos = $("#cpos" + obj_id).val();
+        $("#cSave" + obj_id).click(function(){
+            $pos = $("#cPos" + obj_id).val();
             $("#hidden_cpos").val($pos);
             $("#hidden_csubmit").val("save");
         });
         
-        $("#cdelete" + obj_id).click(function(){
-            $("#cpos" + obj_id).removeAttr("disabled");
+        $("#cDelete" + obj_id).click(function(){
+            $("#cPos" + obj_id).removeAttr("disabled");
             $("#hidden_cid").val(obj_id);
             $("#hidden_csubmit").val("delete");
+        });
+
+        let radioName = "categoryGroup_show" + obj_id;
+        $('input[name='+radioName+']').change(function(){
+            var value = $( 'input[name='+radioName+']:checked' ).val();
+            if(value == 'new group')
+            {
+                $("#csGroupInput" + obj_id).focus();
+            }
+        });
+        
+        $("#csGroupInput" + obj_id).focus(function(){
+            $('input[name='+radioName+'][value=new group]').attr('checked', 'checked');
         });
     }
 
