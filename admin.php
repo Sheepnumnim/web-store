@@ -7,11 +7,11 @@
                 include('dbAddCategory.php');
             break;
             case 'csave':
-                echo "clicked psave </br>";
+                echo "clicked csave </br>";
                 include('dbUpdateCategory.php');
             break;
             case 'cdelete':
-                echo "clicked pdelete </br>";
+                echo "clicked cdelete </br>";
                 include('dbDeleteCategory.php');
             break;
             case 'padd':
@@ -232,17 +232,17 @@
                         <th style="width: 20%" scope="row">Add product:</th>
                         <td style="width: 80%">
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
-                                <input type="file" class="form-control-file" name="productImg" id="productImg"></br>
-                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name (limit 50 character)"></br>
-                                <textarea class="form-control" name="productDesc" id="productDesc" rows="3" placeholder="Enter product description  (limit 100 character) (optional)"></textarea>
+                                <input type="file" class="form-control-file" id="paFile" name="productImg"></br>
+                                <input type="text" class="form-control" id="paName" name="productName" placeholder="Enter product name (limit 50 character)"></br>
+                                <textarea class="form-control" id="paDesc" name="productDesc" rows="3" placeholder="Enter product description  (limit 100 character) (optional)"></textarea>
                                 <label class="col-form-label">Add to category</label>
                                 <?php
-                                    $sql = "SELECT * FROM categories";
+                                    $sql = "SELECT * FROM categories ORDER BY category_id DESC";
                                     if ($res = mysqli_query($conn, $sql)) {
                                         while ($row = mysqli_fetch_array($res)) { 
                                             echo "<div class=\"form-check\">";
-                                            echo "<input class=\"form-check-input\" type=\"radio\" name=\"category_id\" id=". $row['category_id'] ." value=". $row['category_id'] ." checked>";
-                                            echo "<label class=\"form-check-label\" for=". $row['category_id'] .">";
+                                            echo "<input class=\"form-check-input\" type=\"radio\" id=\"paCategory".$row['category_id']."\" name=\"productCategory\" value=". $row['category_id'] ." checked>";
+                                            echo "<label class=\"form-check-label\" for=\"paCategory". $row['category_id'] ."\">";
                                             echo ucfirst($row['category_name']); 
                                             echo "</label>";
                                             echo "</div>";
@@ -271,12 +271,12 @@
                                         echo "<div class=\"form-row\">";
                                         // hiddenid + productName
                                         echo "<div class=\"col-6\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_pid".$pcount."\" name=\"hiddenid\" value=\"".$row['product_id']."\">";
-                                        echo "<input type=\"text\" class=\"form-control\" id=\"pName".$row['product_id']."\" name=\"productName\" disabled value=\"".ucfirst($row['product_name'])."\" placeholder=\"Product name\">";
+                                        echo "<input type=\"hidden\" id=\"psId_hidden".$pcount."\" name=\"hiddenid\" value=\"".$row['product_id']."\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"psName".$row['product_id']."\" name=\"productName\" disabled value=\"".ucfirst($row['product_name'])."\" placeholder=\"Product name\">";
                                         echo "</div>";
                                         // categoryName
                                         echo "<div class=\"col-2\">";
-                                        echo "<select class=\"custom-select\" id=\"pcName".$row['product_id']."\" name=\"categoryName\" disabled=\"disabled\">";
+                                        echo "<select class=\"custom-select\" id=\"psCategory".$row['product_id']."\" name=\"categoryName\" disabled=\"disabled\">";
                                         foreach ($cNameArray as $option) {
                                             if($option == $row['category_name']) {
                                                 echo "<option value=\"".$option."\" selected>".ucfirst($option)."</option>";
@@ -288,40 +288,40 @@
                                         echo "</div>";
                                         // hiddenfav
                                         echo "<div class=\"col-1\">";
-                                        echo "<span href=\"\" class=\"myfav dashicons dashicons-heart\" id=\"pFav".$row['product_id']."\"></span>";
-                                        echo "<input type=\"hidden\" id=\"hiddenfav".$row['product_id']."\" name=\"hiddenfav\" value=\"".$row['product_fav']."\">";
+                                        echo "<span href=\"\" class=\"myfav dashicons dashicons-heart\" id=\"psFav".$row['product_id']."\"></span>";
+                                        echo "<input type=\"hidden\" id=\"psFav_hidden".$row['product_id']."\" name=\"hiddenfav\" value=\"".$row['product_fav']."\">";
                                         echo "</div>";
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"hidden\" id=\"hidden_pimg".$row['product_id']."\" name=\"hiddenimg\" value=\"".$path.$row['product_img']."\">";
-                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['product_img']."\" class=\"zoomable\" id=\"pimage".$row['product_id']."\">image</a>";
+                                        echo "<input type=\"hidden\" id=\"psImage_hidden".$row['product_id']."\" name=\"hiddenimg\" value=\"".$path.$row['product_img']."\">";
+                                        echo "<a href=\"javascript:;\" src=\"".$path.$row['product_img']."\" class=\"zoomable\" id=\"psImage".$row['product_id']."\">image</a>";
                                         echo "</div>";
                                         // btn edit
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"pedit".$row['product_id']."\" value=\"edit\">";
+                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"pEdit".$row['product_id']."\" value=\"edit\">";
                                         // cancel link
-                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"pcancel".$row['product_id']."\">cancel</a>";
+                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"pCancel".$row['product_id']."\">cancel</a>";
                                         echo "</div>";
                                         // btn delete
                                         echo "<div class=\"col-1\">";
-                                        echo "<button type=\"submit\" class=\"btn btn-outline-light\" id=\"pdelete".$row['product_id']."\" name=\"submit\" value=\"pdelete\">delete</button>";
+                                        echo "<button type=\"submit\" class=\"btn btn-outline-light\" id=\"pDelete".$row['product_id']."\" name=\"submit\" value=\"pdelete\">delete</button>";
                                         echo "</div>";
                                         echo "</div>";
                                         // productImg
                                         echo "<div style=\"padding-top: 15px;\" class=\"form-row form-inline\">";
                                         echo "<div class=\"col\">";
-                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"pfile".$row['product_id']."\" name=\"productImg\">"; 
+                                        echo "<input type=\"file\" class=\"form-control-file d-none\" id=\"psFile".$row['product_id']."\" name=\"productImg\">"; 
                                         echo "</div>";
                                         // btn save
                                         echo "<div class=\"col-1\">";
-                                        echo "<button type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"psave".$row['product_id']."\" name=\"submit\" value=\"psave\">save</button>";
+                                        echo "<button type=\"submit\" class=\"btn btn-outline-light d-none\" id=\"pSave".$row['product_id']."\" name=\"submit\" value=\"psave\">save</button>";
                                         echo "</div>";
                                         echo "</div>";
                                         echo "</form>";
                                         echo "<hr>";
                                         $pcount++;
                                     }
-                                    echo "<input type=\"hidden\" id=\"hidden_pcount\" name=\"hiddenfav\" value=\"".$pcount."\">";
+                                    echo "<input type=\"hidden\" id=\"hidden_pcount\" name=\"hiddencount\" value=\"".$pcount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";

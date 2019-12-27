@@ -24,7 +24,7 @@ if(isset($_POST["submit"])) {
                 case "productDesc" :
                     $_POST[$key] = "NO IMAGE DESCRIPTION";
                 break;
-                case "category_id" :
+                case "productCategory" :
                     $_POST[$key] = 1;
                 break;
             }
@@ -76,7 +76,7 @@ if(isset($_POST["submit"])) {
         SET product_name = '$_POST[productName]',
         product_img = '$file_name',
         product_description = '$_POST[productDesc]',
-        category_id = '$_POST[category_id]'";
+        category_id = '$_POST[productCategory]'";
         if (mysqli_query($conn, $sql, MYSQLI_STORE_RESULT)) {
             echo "Successfull query.</br>";
         } else {

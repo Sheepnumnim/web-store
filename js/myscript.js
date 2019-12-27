@@ -11,7 +11,6 @@ $(document).ready(function(){
             $("#csGroup" + obj_id).removeAttr("disabled");
             $("#cName" + obj_id).removeAttr("disabled");
             $("#csImage" + obj_id).addClass("d-none");
-            // $("#csImage" + obj_id).text("change image");
             $("#csImage" + obj_id).attr("src", "");
             $("#csImage" + obj_id).attr("src", "");
             $("#csGroup_div" + obj_id).removeClass("d-none");
@@ -27,7 +26,6 @@ $(document).ready(function(){
             $("#csGroup" + obj_id).attr("disabled", "true");
             $("#cName" + obj_id).attr("disabled", "true");
             $("#csImage" + obj_id).removeClass("d-none");
-            // $("#csImage" + obj_id).text("image");
             $("#csImage" + obj_id).attr("src", $("#csImage_hidden" + obj_id).val());
             $("#csGroup_div" + obj_id).addClass("d-none");
             $("#csFile" + obj_id).addClass("d-none");
@@ -62,45 +60,37 @@ $(document).ready(function(){
 
     var $pcount = $("#hidden_pcount").val();
     for(var i=0; i<parseInt($pcount, 10); i++) {
-        var obj_name = "#hidden_pid" + i;
+        var obj_name = "#psId_hidden" + i;
         let obj_id = $(obj_name).val();
-        $("#pedit" + obj_id).click(function(){
-            $("#pedit" + obj_id).addClass("d-none");
-            $("#psave" + obj_id).removeClass("d-none");
-            $("#pcancel" + obj_id).removeClass("d-none");
-            $("#pName" + obj_id).removeAttr("disabled");
-            $("#pcName" + obj_id).removeAttr("disabled");
-            $("#pimage" + obj_id).addClass("d-none");
-            $("#pimage" + obj_id).attr("src", "");
-            $("#pfile" + obj_id).removeClass("d-none");
-            $("#pFav" + obj_id).addClass("active");
-            $("#pFav" + obj_id).click(function(){
-                $(this).toggleClass("selected");
-                if($(this).hasClass("selected")) {
-                    $("#hiddenfav" + obj_id).val(1);
-                } else {
-                    $("#hiddenfav" + obj_id).val(0);
-                }
-                console.log("hiddenfav" + obj_id + ": " + $("#hiddenfav" + obj_id).val())
-            });
+        $("#pEdit" + obj_id).click(function(){
+            $("#pEdit" + obj_id).addClass("d-none");
+            $("#pSave" + obj_id).removeClass("d-none");
+            $("#pCancel" + obj_id).removeClass("d-none");
+            $("#psName" + obj_id).removeAttr("disabled");
+            $("#psCategory" + obj_id).removeAttr("disabled");
+            $("#psImage" + obj_id).addClass("d-none");
+            $("#psImage" + obj_id).attr("src", "");
+            $("#psFile" + obj_id).removeClass("d-none");
+            $("#psFav" + obj_id).addClass("active");
+            checkPFavActive(obj_id);
             console.log("clicked: " + obj_id);
         });
 
-        $("#pcancel" + obj_id).click(function(){
-            $("#pedit" + obj_id).removeClass("d-none");
-            $("#psave" + obj_id).addClass("d-none");
-            $("#pcancel" + obj_id).addClass("d-none");
-            $("#pName" + obj_id).attr("disabled", "true");
-            $("#pcName" + obj_id).attr("disabled", "disabled");
-            $("#pimage" + obj_id).removeClass("d-none");
-            $("#pimage" + obj_id).attr("src", $("#hidden_pimg" + obj_id).val());
-            $("#pfile" + obj_id).addClass("d-none");
-            $("#pFav" + obj_id).removeClass("active");
+        $("#pCancel" + obj_id).click(function(){
+            $("#pEdit" + obj_id).removeClass("d-none");
+            $("#pSave" + obj_id).addClass("d-none");
+            $("#pCancel" + obj_id).addClass("d-none");
+            $("#psName" + obj_id).attr("disabled", "true");
+            $("#psCategory" + obj_id).attr("disabled", "disabled");
+            $("#psImage" + obj_id).removeClass("d-none");
+            $("#psImage" + obj_id).attr("src", $("#psImage_hidden" + obj_id).val());
+            $("#psFile" + obj_id).addClass("d-none");
+            $("#psFav" + obj_id).removeClass("active");
             console.log("clicked: " + obj_id);
         });
 
-        if($("#hiddenfav" + obj_id).val() == 1) {
-            $("#pFav" + obj_id).addClass("selected");
+        if($("#psFav_hidden" + obj_id).val() == 1) {
+            $("#psFav" + obj_id).addClass("selected");
         }
     }
 
@@ -153,6 +143,24 @@ $(document).ready(function(){
 //     });
 // }
 // https://stackoverflow.com/questions/44644114/whats-a-non-deprecated-way-of-doing-a-synchronous-ajax-call-using-jquery
+
+function checkPFavActive(temp_id) {
+    $("#psFav" + temp_id).click(function(){
+        if($("#psFav" + temp_id).hasClass("active")) {
+            $("#psFav" + temp_id).toggleClass("selected");
+            if($("#psFav" + temp_id).hasClass("selected")) {
+                $("#psFav_hidden" + temp_id).val(1);
+            } else {
+                $("#psFav_hidden" + temp_id).val(0);
+            }
+            console.log("psFav_hidden" + temp_id + ": " + $("#psFav_hidden" + temp_id).val());
+        }
+        else {
+            console.log("this fav button is not active now.");
+        }
+    });
+    
+}
 
 function cvalidate() {
     var ename = document.getElementById( "hidden_csubmit" );
