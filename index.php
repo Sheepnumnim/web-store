@@ -53,7 +53,8 @@
                         <div class="mytitle">
                             Highlight Products
                         </div>
-                        <?php
+<?php
+/*
 // get category
 $c_rows = array();
 $sql = "SELECT DISTINCT c.category_id, category_name, category_img, category_pos, category_group
@@ -78,32 +79,38 @@ foreach ($c_rows as $row) {
     $g_rows[$count] = strtolower($row['category_group']);
     $count++;
 }
-?>
-                        <div class="button-group filters-button-group">
-                            <div class="button is-checked" data-filter="*">All</div>
-                            <?php
-foreach ($g_rows as $row) {
-    echo "<div class=\"button\" data-filter=\"." . $row . "\">" . $row . "</div>";
+*/
+
+$p_rows = array();
+$count = 0;
+$sql = "SELECT * FROM products WHERE product_fav=1";
+if ($res = mysqli_query($conn, $sql)) {
+    while ($row = mysqli_fetch_array($res)) {
+        $p_rows[$count] = $row;
+        $count++;
+    }
+} else {
+    echo "Cannot query.</br>";
 }
 ?>
-                        </div>
+                        
                         <div class="grid" id="portfolio">
                             <div class="grid-sizer"></div>
-                            <?php
-foreach ($c_rows as $row) {
+<?php
+foreach ($p_rows as $row) {
     echo "<div class=\"grid-item element-item p_one_third "
-    . strtolower($row['category_group'])
+    . strtolower($row['category_id'])
         . "\">";
-    echo "<a href=\"uploads/categories/"
-        . $row['category_img']
+    echo "<a href=\"uploads/products/"
+        . $row['product_img']
         . "\">";
-    echo "<img src=\"uploads/categories/"
-        . $row['category_img']
+    echo "<img src=\"uploads/products/"
+        . $row['product_img']
         . "\">"
         . "alt=\"\">";
     echo "<div class=\"portfolio-text-holder\">";
     echo "<p>"
-    . strtoupper($row['category_name'])
+    . strtoupper($row['product_name'])
         . "</p>";
     echo "</div></a></div>";
 }
