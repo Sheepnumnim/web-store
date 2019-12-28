@@ -11,27 +11,27 @@
         switch($_POST['submit']) {
             case 'cadd':
                 echo "clicked padd </br>";
-                include('dbAddCategory.php');
+                include('database/dbAddCategory.php');
             break;
             case 'csave':
                 echo "clicked csave </br>";
-                include('dbUpdateCategory.php');
+                include('database/dbUpdateCategory.php');
             break;
             case 'cdelete':
                 echo "clicked cdelete </br>";
-                include('dbDeleteCategory.php');
+                include('database/dbDeleteCategory.php');
             break;
             case 'padd':
                 echo "clicked padd </br>";
-                include('dbAddProduct.php');
+                include('database/dbAddProduct.php');
             break;
             case 'psave':
                 echo "clicked psave </br>";
-                include('dbUpdateProduct.php');
+                include('database/dbUpdateProduct.php');
             break;
             case 'pdelete':
                 echo "clicked pdelete </br>";
-                include('dbDeleteProduct.php');
+                include('database/dbDeleteProduct.php');
             break;
         }
         header("Location: ".$_SERVER['PHP_SELF']);
