@@ -1,5 +1,12 @@
 <?php 
     include('dbconnect.php');
+    
+    if(!isset($_COOKIE["type"]))
+    {
+        echo 'in admin';
+        header("location:login.php");
+    }
+    
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         switch($_POST['submit']) {
             case 'cadd':
@@ -27,7 +34,7 @@
                 include('dbDeleteProduct.php');
             break;
         }
-        // header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: ".$_SERVER['PHP_SELF']);
     }
 ?>
 <!DOCTYPE html>
@@ -40,7 +47,13 @@
     <title>Document</title>
 </head>
 <body class="container bg-dark">
-    <h1 class="text-light" id="top">Icon-Perfect Admin</h1>
+    <div style="display:flex; justify-content:space-between; padding-top:10px;">
+        <h1 class="text-light" id="top">Icon-Perfect Admin</h1>
+        <!-- <p class="col">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla molestias ipsam, nostrum dicta tenetur quas ut labore eos soluta suscipit sunt officia! Delectus id consequatur iusto mollitia ipsum excepturi inventore.</p> -->
+        <a style="margin-top:15px" href="dblogout.php">
+            <img src="images/prettyPhoto/logout-24.png" alt="logout">
+        </a>
+    </div>
     <p>&nbsp;</p>
     <hr style="border:2px solid white">
     <p>&nbsp;</p>
