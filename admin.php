@@ -91,7 +91,7 @@
                                                 echo "<input class=\"form-check-input\" type=\"radio\" id=\"caGroup".$count."\" name=\"categoryGroup_add\" value=\"".$data."\">";
                                             }
                                             echo "<label class=\"form-check-label\" for=\"caGroup".$count."\">";
-                                            echo ucfirst($data);
+                                            echo $data;
                                             echo "</label> </div>";
                                             $count++;
                                         }
@@ -128,7 +128,7 @@
                                         echo "</div>";
                                         // categoryName
                                         echo "<div class=\"col-8\">";
-                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".ucfirst($row['category_name'])."\" placeholder=\"Category name\" required>";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"cName".$row['category_id']."\" name=\"categoryName\" maxlength=\"50\" disabled value=\"".$row['category_name']."\" placeholder=\"Category name\" required>";
                                         echo "</div>";
                                         // hiddenimg
                                         echo "<div class=\"col-1\">";
@@ -158,7 +158,7 @@
                                                 echo "<input class=\"form-check-input\" type=\"radio\" id=\"csGroup".$row['category_id'].$count."\" name=\"categoryGroup_show".$row['category_id']."\" value=\"".$data."\">";
                                             }
                                             echo "<label class=\"form-check-label\" for=\"csGroup".$row['category_id'].$count."\">";
-                                            echo ucfirst($data);
+                                            echo $data;
                                             echo "</label> </div>";
                                             $count++;
                                         }
@@ -243,7 +243,7 @@
                                             echo "<div class=\"form-check\">";
                                             echo "<input class=\"form-check-input\" type=\"radio\" id=\"paCategory".$row['category_id']."\" name=\"productCategory\" value=". $row['category_id'] ." checked>";
                                             echo "<label class=\"form-check-label\" for=\"paCategory". $row['category_id'] ."\">";
-                                            echo ucfirst($row['category_name']); 
+                                            echo $row['category_name']; 
                                             echo "</label>";
                                             echo "</div>";
                                         }
@@ -272,16 +272,16 @@
                                         // hiddenid + productName
                                         echo "<div class=\"col-6\">";
                                         echo "<input type=\"hidden\" id=\"psId_hidden".$pcount."\" name=\"hiddenid\" value=\"".$row['product_id']."\">";
-                                        echo "<input type=\"text\" class=\"form-control\" id=\"psName".$row['product_id']."\" name=\"productName\" disabled value=\"".ucfirst($row['product_name'])."\" placeholder=\"Product name\">";
+                                        echo "<input type=\"text\" class=\"form-control\" id=\"psName".$row['product_id']."\" name=\"productName\" disabled value=\"".$row['product_name']."\" placeholder=\"Product name\">";
                                         echo "</div>";
                                         // categoryName
                                         echo "<div class=\"col-2\">";
                                         echo "<select class=\"custom-select\" id=\"psCategory".$row['product_id']."\" name=\"categoryName\" disabled=\"disabled\">";
                                         foreach ($cNameArray as $option) {
                                             if($option == $row['category_name']) {
-                                                echo "<option value=\"".$option."\" selected>".ucfirst($option)."</option>";
+                                                echo "<option value=\"".$option."\" selected>".$option."</option>";
                                             } else {
-                                                echo "<option value=\"".$option."\">".ucfirst($option)."</option>";
+                                                echo "<option value=\"".$option."\">".$option."</option>";
                                             }
                                         }
                                         echo "</select>";
@@ -322,6 +322,7 @@
                                         $pcount++;
                                     }
                                     echo "<input type=\"hidden\" id=\"hidden_pcount\" name=\"hiddencount\" value=\"".$pcount."\">";
+                                    echo "<input type=\"hidden\" id=\"hidden_pfav\" value=\"".$pcount."\">";
                                     mysqli_free_result($res); 
                                 } else {
                                     echo "Cannot query.</br>";

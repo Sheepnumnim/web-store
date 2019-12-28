@@ -1,18 +1,18 @@
 # categories
 create table categories(
     -> category_id int NOT NULL AUTO_INCREMENT,
-    -> category_name char(50) NOT NULL,
-    -> category_img char(50) NOT NULL DEFAULT "no-photo.png",
+    -> category_name varchar(50) NOT NULL,
+    -> category_img varchar(50) NOT NULL DEFAULT "no-photo.png",
     -> category_pos int NOT NULL DEFAULT 0,
-    -> category_group char(20) NOT NULL DEFAULT "Others",
+    -> category_group varchar(20) NOT NULL DEFAULT "Others",
     -> PRIMARY KEY(category_id));
 
 # products
 create table products(
     -> product_id int NOT NULL AUTO_INCREMENT,
-    -> product_name char(50) NOT NULL DEFAULT "NO IMAGE TITLE",
-    -> product_img char(50) NOT NULL DEFAULT "no-photo.png",
-    -> product_description char(100) NOT NULL DEFAULT "NO IMAGE DESCRIPTION",
+    -> product_name varchar(50) NOT NULL DEFAULT "NO IMAGE TITLE",
+    -> product_img varchar(50) NOT NULL DEFAULT "no-photo.png",
+    -> product_description varchar(100) NOT NULL DEFAULT "NO IMAGE DESCRIPTION",
     -> category_id int NOT NULL DEFAULT 1,
     -> product_fav boolean NOT NULL DEFAULT FAULT;
     -> PRIMARY KEY(product_id),

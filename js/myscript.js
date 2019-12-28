@@ -72,7 +72,8 @@ $(document).ready(function(){
             $("#psImage" + obj_id).attr("src", "");
             $("#psFile" + obj_id).removeClass("d-none");
             $("#psFav" + obj_id).addClass("active");
-            checkPFavActive(obj_id);
+            $("#hidden_pfav").val(obj_id);
+            // checkPFavActive(obj_id);
             console.log("clicked: " + obj_id);
         });
 
@@ -92,6 +93,21 @@ $(document).ready(function(){
         if($("#psFav_hidden" + obj_id).val() == 1) {
             $("#psFav" + obj_id).addClass("selected");
         }
+
+        $("#psFav" + obj_id).click(function(){
+            if($("#psFav" + obj_id).hasClass("active")) {
+                $("#psFav" + obj_id).toggleClass("selected");
+                if($("#psFav" + obj_id).hasClass("selected")) {
+                    $("#psFav_hidden" + obj_id).val(1);
+                } else {
+                    $("#psFav_hidden" + obj_id).val(0);
+                }
+                console.log("psFav_hidden" + obj_id + ": " + $("#psFav_hidden" + obj_id).val());
+            }
+            else {
+                console.log("this fav button is not active now.");
+            }
+        });
     }
 
     $('a.zoomable').click(function () {
@@ -143,24 +159,6 @@ $(document).ready(function(){
 //     });
 // }
 // https://stackoverflow.com/questions/44644114/whats-a-non-deprecated-way-of-doing-a-synchronous-ajax-call-using-jquery
-
-function checkPFavActive(temp_id) {
-    $("#psFav" + temp_id).click(function(){
-        if($("#psFav" + temp_id).hasClass("active")) {
-            $("#psFav" + temp_id).toggleClass("selected");
-            if($("#psFav" + temp_id).hasClass("selected")) {
-                $("#psFav_hidden" + temp_id).val(1);
-            } else {
-                $("#psFav_hidden" + temp_id).val(0);
-            }
-            console.log("psFav_hidden" + temp_id + ": " + $("#psFav_hidden" + temp_id).val());
-        }
-        else {
-            console.log("this fav button is not active now.");
-        }
-    });
-    
-}
 
 function cvalidate() {
     var ename = document.getElementById( "hidden_csubmit" );

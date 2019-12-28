@@ -69,7 +69,6 @@
                                 $count = 0;
                                 while ($row = mysqli_fetch_array($res)) { 
                                     $g_rows[$count] = strtolower($row['category_group']);
-                                    // echo ucfirst($g_rows[$count]) . " $g_rows[$count]</br>";
                                     $count++;
                                 }
                                 mysqli_free_result($res); 
@@ -81,10 +80,9 @@
                             <div class="button is-checked" data-filter="*">All</div>
                             <?php
                                 foreach($g_rows as $row) {
-                                    echo "<div class=\"button\" data-filter=\".".$row."\">".ucfirst($row)."</div>";
+                                    echo "<div class=\"button\" data-filter=\".".$row."\">".$row."</div>";
                                 }
                             ?>
-                            <!-- <div class="button" data-filter=".extern">Extern</div>                                 -->
                         </div>
                         <div class="grid" id="portfolio">
                             <div class="grid-sizer"></div>
