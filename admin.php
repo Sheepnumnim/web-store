@@ -150,8 +150,10 @@
                                         echo "</div>";
                                         // btn edit
                                         echo "<div class=\"col-1\">";
-                                        echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"cEdit".$row['category_id']."\" value=\"edit\">";
-                                        echo "<a href=\"javascript:;\" class=\"d-none\" id=\"cCancel".$row['category_id']."\">cancel</a>";
+                                        if($row['category_name'] != 'Others') {
+                                            echo "<input type=\"button\" class=\"btn btn-outline-light\" id=\"cEdit".$row['category_id']."\" value=\"edit\">";
+                                            echo "<a href=\"javascript:;\" class=\"d-none\" id=\"cCancel".$row['category_id']."\">cancel</a>";
+                                        }
                                         echo "</div>";
                                         // btn delete
                                         echo "<div class=\"col-1\">";

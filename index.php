@@ -53,7 +53,10 @@
                         <?php
 // get category
 $c_rows = array();
-$sql = "SELECT * FROM categories ORDER BY category_pos ASC";
+$sql = "SELECT DISTINCT c.category_id, category_name, category_img, category_pos, category_group
+    FROM categories c, products p
+    WHERE c.category_id=p.category_id
+    ORDER BY category_pos ASC";
 if ($res = mysqli_query($conn, $sql)) {
     $count = 0;
     while ($row = mysqli_fetch_array($res)) {
@@ -64,18 +67,13 @@ if ($res = mysqli_query($conn, $sql)) {
 } else {
     echo "Cannot query.</br>";
 }
+
 // get group of category
 $g_rows = array();
-$sql = "SELECT DISTINCT category_group FROM categories";
-if ($res = mysqli_query($conn, $sql)) {
-    $count = 0;
-    while ($row = mysqli_fetch_array($res)) {
-        $g_rows[$count] = strtolower($row['category_group']);
-        $count++;
-    }
-    mysqli_free_result($res);
-} else {
-    echo "Cannot query.</br>";
+$count = 0;
+foreach ($c_rows as $row) {
+    $g_rows[$count] = strtolower($row['category_group']);
+    $count++;
 }
 ?>
                         <div class="button-group filters-button-group">

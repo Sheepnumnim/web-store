@@ -58,6 +58,18 @@ $(document).ready(function(){
         });
     }
 
+    $('input[name=categoryGroup_add]').change(function(){
+        var value = $('input[name=categoryGroup_add]:checked').val();
+        if(value == 'new group')
+        {
+            $('#caGroupInput').focus();
+        }
+    });
+
+    $('#caGroupInput').focus(function(){
+        $('input[name=categoryGroup_add][value=new group]').attr('checked', 'checked');
+    });
+
     var $pcount = $("#hidden_pcount").val();
     for(var i=0; i<parseInt($pcount, 10); i++) {
         var obj_name = "#psId_hidden" + i;
@@ -182,6 +194,7 @@ function cvalidate() {
             return false;
         }
     }
+    
     if(ename.value == "delete") {
         // var confirm_text = "delete?";
         var id = $("#hidden_cid").val();
@@ -201,8 +214,25 @@ function cvalidate() {
         // });
 
         // alert(id);
-        return confirm(confirm_text);
-        // return false;
+        switch(confirm_text) {
+            case "1":
+                confirm_text = "Delete?";
+                return confirm(confirm_text);
+                break;
+            case "2":
+                confirm_text = "This category is related to some product.\nIf you delete this, you will also delete all products in this category.\n\nAre you sure?";
+                return confirm(confirm_text);
+                break;
+            case "3":
+                confirm_text = "Cannot delete default category(category name: Others).";
+                alert(confirm_text);
+                return false;
+                break;
+            default:
+                confirm_text = "Error occured";
+                alert(confirm_text);
+                break;
+        }
     }
     else {
         return confirm('error occured. : ' + ename.value);
