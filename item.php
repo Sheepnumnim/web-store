@@ -49,62 +49,45 @@ if ($res = mysqli_query($conn, $sql)) {
             <div id="content" class="site-content">
                 <article>
                     <div class="content-1330 center-relative">
-                        <div class="clear"></div>
-                        <?php
-// get category
-$c_rows = array();
-$sql = "SELECT DISTINCT c.category_id, category_name, category_img, category_pos, category_group
-    FROM categories c, products p
-    WHERE c.category_id=p.category_id
-    ORDER BY category_pos ASC";
-if ($res = mysqli_query($conn, $sql)) {
-    $count = 0;
-    while ($row = mysqli_fetch_array($res)) {
-        $c_rows[$count] = $row;
-        $count++;
-    }
-    mysqli_free_result($res);
-} else {
-    echo "Cannot query.</br>";
-}
-
-// get group of category
-$g_rows = array();
-$count = 0;
-foreach ($c_rows as $row) {
-    $g_rows[$count] = strtolower($row['category_group']);
-    $count++;
-}
-?>
-                        <div class="button-group filters-button-group">
-                            <div class="button is-checked" data-filter="*">All</div>
-                            <?php
-foreach ($g_rows as $row) {
-    echo "<div class=\"button\" data-filter=\"." . $row . "\">" . $row . "</div>";
-}
-?>
+                        <div class="page-desc">
+                            Science cuts two ways, of course, its products can be used for both good and evil. But there’s no turning back from science. The early warnings about technological dangers also come from science.
                         </div>
-                        <div class="grid" id="portfolio">
-                            <div class="grid-sizer"></div>
-                            <?php
-foreach ($c_rows as $row) {
-    echo "<div class=\"grid-item element-item p_one_third "
-    . strtolower($row['category_group'])
-        . "\">";
-    echo "<a href=\"uploads/categories/"
-        . $row['category_img']
-        . "\">";
-    echo "<img src=\"uploads/categories/"
-        . $row['category_img']
-        . "\">"
-        . "alt=\"\">";
-    echo "<div class=\"portfolio-text-holder\">";
-    echo "<p>"
-    . strtoupper($row['category_name'])
-        . "</p>";
-    echo "</div></a></div>";
-}
-?>
+                        <div class="clear"></div>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                    </div>
+                    <div class="content-1530 center-relative block">
+                        <script>
+                            var slider1_speed = "500";
+                            var slider1_auto = "true";
+                            var slider1_pagination = "true";
+                            var slider1_hover = "true";
+                        </script>
+                        <div class="image-slider-wrapper">
+                            <ul id="slider1" class="image-slider slides center-text">
+                                <?php
+                                    foreach($rows as $row) {
+                                        echo "<li><img src=\"uploads/products/".$row['product_img']."\" alt=\"".$row['product_name']."\">";
+                                    }
+                                ?>
+                            </ul>                        
+                            <div class="slider1_pagination carousel_pagination left"></div>
+                        </div>
+                        <div class="clear"></div>                                                
+                    </div>
+
+                    <div class="content-1330 center-relative block">
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <div class="one_half">
+                            <strong>The Story</strong>
+                            <br>
+                            With a warning label this big, you know they gotta be fun. Bring me the forms I need to fill out to have her taken away. I decline the title of iron cook and accept the lesser title of zinc saucier, which I just made up.                            
+                        </div>
+                        <div class="one_half last">
+                            <strong>Dreamers</strong>
+                            <br>
+                            You probably haven’t heard of them before they sold out scenester literally readymade. Trust fund Thundercats flexitarian, aesthetic Tumblr banjo freegan semiotics biodiesel master cleanse taxidermy blog.
                         </div>
                         <div class="clear"></div>
                     </div>

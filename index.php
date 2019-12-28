@@ -50,6 +50,9 @@
                         <div class="clear"></div>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
+                        <div class="mytitle">
+                            Highlight Products
+                        </div>
                         <?php
 // get category
 $c_rows = array();
