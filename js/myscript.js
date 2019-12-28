@@ -39,7 +39,8 @@ $(document).ready(function(){
         });
         
         $("#cDelete" + obj_id).click(function(){
-            $("#cPos" + obj_id).removeAttr("disabled");
+            $pos = $("#cPos" + obj_id).val();
+            $("#hidden_cpos").val($pos);
             $("#hidden_cid").val(obj_id);
             $("#hidden_csubmit").val("delete");
         });
