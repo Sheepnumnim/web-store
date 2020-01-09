@@ -43,7 +43,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <?php include('get_headInclude.php');?>
+    <?php include('get_style.php');?>
+    <link rel="stylesheet" type="text/css" href="css/admin-style.css">
     <title>Document</title>
 </head>
 <body class="container bg-dark">
@@ -407,6 +408,7 @@
     <div style="bottom:20px; right:20px; position:fixed;"><a href="#bottom" target="_top"><img src="images/prettyPhoto/arrow-down-icon.png" alt="arrow-down-icon" width="40" height="40"/></a></div>
     <div id="bottom"></div>
 
+    <?php include('get_script.php');?>
     <script src="js/myscript.js"></script>
     <script src="http://static.tumblr.com/xz44nnc/o5lkyivqw/jquery-1.3.2.min.js"></script>
     <script>

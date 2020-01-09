@@ -1,4 +1,4 @@
-<?php include('get_headInclude.php') ?>
+<?php include('get_style.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +34,7 @@
         </form>
     </div>
     </div>
+    <?php include('get_script.php');?>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
 $('.message a').click(function(){

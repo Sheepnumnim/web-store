@@ -48,14 +48,15 @@ if ($res = mysqli_query($conn, $sql)) {
 
             <div id="content" class="site-content">
                 <article>
-                    <div class="content-1330 center-relative">
+                    <!-- <div class="content-1330 center-relative">
                         <div class="page-desc">
                             Science cuts two ways, of course, its products can be used for both good and evil. But there’s no turning back from science. The early warnings about technological dangers also come from science.
                         </div>
                         <div class="clear"></div>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
-                    </div>
+                    </div> -->
+                    
                     <div class="content-1530 center-relative block">
                         <script>
                             var slider1_speed = "500";
@@ -76,7 +77,7 @@ if ($res = mysqli_query($conn, $sql)) {
                         <div class="clear"></div>                                                
                     </div>
 
-                    <div class="content-1330 center-relative block">
+                    <!-- <div class="content-1330 center-relative block">
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                         <div class="one_half">
@@ -90,7 +91,7 @@ if ($res = mysqli_query($conn, $sql)) {
                             You probably haven’t heard of them before they sold out scenester literally readymade. Trust fund Thundercats flexitarian, aesthetic Tumblr banjo freegan semiotics biodiesel master cleanse taxidermy blog.
                         </div>
                         <div class="clear"></div>
-                    </div>
+                    </div> -->
                 </article>
             </div>
 
